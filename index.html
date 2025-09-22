@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Тест по истории России</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .question {
+            margin-bottom: 20px;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        .options {
+            margin-top: 10px;
+        }
+        .option {
+            margin: 5px 0;
+        }
+        button {
+            padding: 10px 15px;
+            background: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        button:hover {
+            background: #45a049;
+        }
+        #result {
+            margin-top: 20px;
+            font-weight: bold;
+            color: #4CAF50;
+        }
+        #loading {
+            text-align: center;
+            font-style: italic;
+            color: #666;
+        }
+    </style>
+</head>
+<body>
+    <h1>Тест по истории России</h1>
+    <div id="loading">Загрузка теста...</div>
+    <div id="test" style="display: none;"></div>
+    <button id="submit" style="display: none;">Проверить результаты</button>
+    <div id="result"></div>
+
+    <script>
+        // Замените эту ссылку на прямую ссылку на ваш TSV-файл
+        const tsvUrl = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSd5OFapQhdiPiBAgxM2nIgDgHcZDkvNgS8MZGwoZbVQJOEJ1pzCtLrsyufTo6BiFiHcgujVcVuhd34/pub?output=tsv";
+
+        async function loadTest() {
+            try {
+                const response = await fetch(tsvUrl);
+                if (!response.ok) throw new Error("Не удалось загрузить файл");
+                const tsvData = await response.text();
+                parseAndBuildTest(tsvData);
+            } catch (error) {
+                document.getElementById('loading').textContent = "Ошибка загрузки теста: " + error.message;
+                console.error(error);
+            }
+        }
+
+        function parseAndBuildTest(tsvData) {
+            // Пропускаем первую строку (заголовок)
+            const lines = tsvData.trim().split('\n').slice(1);
+
+            const questions = lines.map(line => {
+                const [num, question, opt1, opt2, opt3, opt4, correct] = line.split('\t');
+                return {
+                    question,
+                    options: [opt1, opt2, opt3, opt4],
+                    correct: parseInt(correct) - 1
+                };
+            });
+
+            const testContainer = document.getElementById('test');
+            let userAnswers = [];
+
+            questions.forEach((q, i) => {
+                const questionDiv = document.createElement('div');
+                questionDiv.className = 'question';
+                questionDiv.innerHTML = `
+                    <h3>${i+1}. ${q.question}</h3>
+                    <div class="options">
+                        ${q.options.map((opt, j) => `
+                            <div class="option">
+                                <input type="radio" id="q${i}-opt${j}" name="q${i}" value="${j}">
+                                <label for="q${i}-opt${j}">${opt}</label>
+                            </div>
+                        `).join('')}
+                    </div>
+                `;
+                testContainer.appendChild(questionDiv);
+            });
+
+            document.getElementById('loading').style.display = 'none';
+            document.getElementById('test').style.display = 'block';
+            document.getElementById('submit').style.display = 'block';
+
+            document.getElementById('submit').addEventListener('click', () => {
+                userAnswers = questions.map((_, i) => {
+                    const selected = document.querySelector(`input[name="q${i}"]:checked`);
+                    return selected ? parseInt(selected.value) : null;
+                });
+
+                const correctAnswers = userAnswers.reduce((sum, ans, i) => {
+                    return ans === questions[i].correct ? sum + 1 : sum;
+                }, 0);
+
+                document.getElementById('result').textContent =
+                    `Ваш результат: ${correctAnswers} из ${questions.length}`;
+            });
+        }
+
+        loadTest();
+    </script>
+</body>
+</html>
