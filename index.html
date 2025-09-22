@@ -3,13 +3,30 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Тест по истории России</title>
+    <title>Курсовая работа с онлайн тестами</title>
     <style>
         body {
             font-family: Arial, sans-serif;
             max-width: 800px;
             margin: 0 auto;
             padding: 20px;
+        }
+        .menu {
+            margin-bottom: 20px;
+        }
+        .test-item {
+            padding: 10px;
+            margin: 5px 0;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .test-item:hover {
+            background: #f5f5f5;
+        }
+        .test-item.selected {
+            background: #e0f7fa;
+            border-color: #4CAF50;
         }
         .question {
             margin-bottom: 20px;
@@ -30,6 +47,7 @@
             border: none;
             border-radius: 4px;
             cursor: pointer;
+            margin-right: 10px;
         }
         button:hover {
             background: #45a049;
@@ -44,35 +62,106 @@
             font-style: italic;
             color: #666;
         }
+        #test-container {
+            display: none;
+        }
     </style>
 </head>
 <body>
-    <h1>Тест по истории России</h1>
-    <div id="loading">Загрузка теста...</div>
-    <div id="test" style="display: none;"></div>
-    <button id="submit" style="display: none;">Проверить результаты</button>
-    <div id="result"></div>
+    <h1>Курсовая работа с онлайн тестами</h1>
+
+    <div id="loading-tests">Загрузка списка тестов...</div>
+    <div id="test-menu" class="menu" style="display: none;">
+        <h3>Выберите тест:</h3>
+        <div id="test-list"></div>
+        <button id="start-test" style="display: none;">Пуск</button>
+    </div>
+
+    <div id="test-container">
+        <div id="test-description"></div>
+        <div id="test"></div>
+        <button id="submit">Проверить результаты</button>
+        <div id="result"></div>
+    </div>
 
     <script>
-        // Замените эту ссылку на прямую ссылку на ваш TSV-файл
-        const tsvUrl = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSd5OFapQhdiPiBAgxM2nIgDgHcZDkvNgS8MZGwoZbVQJOEJ1pzCtLrsyufTo6BiFiHcgujVcVuhd34/pub?output=tsv";
+        // Ссылка на TSV-файл со списком тестов
+        const testsListUrl = "https://docs.google.com/spreadsheets/d/e/2PACX-1vT1Sqx40EJT4vwxGxT6zs56qKmXcFC1UprCq_AaGFJrEKifeKtLMcMsg3ltIgdcaK1a4kXHwr0QeatT/pub?output=tsv";
 
-        async function loadTest() {
+        let tests = [];
+        let selectedTest = null;
+
+        // Загрузка списка тестов
+        async function loadTestsList() {
             try {
-                const response = await fetch(tsvUrl);
-                if (!response.ok) throw new Error("Не удалось загрузить файл");
+                const response = await fetch(testsListUrl);
+                if (!response.ok) throw new Error("Не удалось загрузить список тестов");
                 const tsvData = await response.text();
-                parseAndBuildTest(tsvData);
+                parseTestsList(tsvData);
             } catch (error) {
-                document.getElementById('loading').textContent = "Ошибка загрузки теста: " + error.message;
+                document.getElementById('loading-tests').textContent = "Ошибка загрузки списка тестов: " + error.message;
                 console.error(error);
             }
         }
 
-        function parseAndBuildTest(tsvData) {
-            // Пропускаем первую строку (заголовок)
-            const lines = tsvData.trim().split('\n').slice(1);
+        // Парсинг списка тестов
+        function parseTestsList(tsvData) {
+            const lines = tsvData.trim().split('\n').slice(1); // Пропускаем заголовок
+            tests = lines.map(line => {
+                const [n, name, description, url] = line.split('\t');
+                return { name, description, url };
+            });
 
+            renderTestsMenu();
+        }
+
+        // Отрисовка меню тестов
+        function renderTestsMenu() {
+            const testList = document.getElementById('test-list');
+            testList.innerHTML = '';
+
+            tests.forEach((test, index) => {
+                const testItem = document.createElement('div');
+                testItem.className = 'test-item';
+                testItem.textContent = test.name;
+                testItem.addEventListener('click', () => {
+                    document.querySelectorAll('.test-item').forEach(item => {
+                        item.classList.remove('selected');
+                    });
+                    testItem.classList.add('selected');
+                    selectedTest = test;
+                    document.getElementById('start-test').style.display = 'block';
+                });
+                testList.appendChild(testItem);
+            });
+
+            document.getElementById('loading-tests').style.display = 'none';
+            document.getElementById('test-menu').style.display = 'block';
+        }
+
+        // Загрузка и парсинг выбранного теста
+        async function loadSelectedTest() {
+            if (!selectedTest) return;
+
+            document.getElementById('test-menu').style.display = 'none';
+            document.getElementById('test-container').style.display = 'block';
+            document.getElementById('test-description').textContent = selectedTest.description;
+            document.getElementById('test').innerHTML = '<div id="loading">Загрузка теста...</div>';
+
+            try {
+                const response = await fetch(selectedTest.url);
+                if (!response.ok) throw new Error("Не удалось загрузить тест");
+                const tsvData = await response.text();
+                parseAndBuildTest(tsvData);
+            } catch (error) {
+                document.getElementById('test').innerHTML = `<div>Ошибка загрузки теста: ${error.message}</div>`;
+                console.error(error);
+            }
+        }
+
+        // Парсинг и построение теста
+        function parseAndBuildTest(tsvData) {
+            const lines = tsvData.trim().split('\n').slice(1); // Пропускаем заголовок
             const questions = lines.map(line => {
                 const [num, question, opt1, opt2, opt3, opt4, correct] = line.split('\t');
                 return {
@@ -83,6 +172,7 @@
             });
 
             const testContainer = document.getElementById('test');
+            testContainer.innerHTML = '';
             let userAnswers = [];
 
             questions.forEach((q, i) => {
@@ -102,10 +192,6 @@
                 testContainer.appendChild(questionDiv);
             });
 
-            document.getElementById('loading').style.display = 'none';
-            document.getElementById('test').style.display = 'block';
-            document.getElementById('submit').style.display = 'block';
-
             document.getElementById('submit').addEventListener('click', () => {
                 userAnswers = questions.map((_, i) => {
                     const selected = document.querySelector(`input[name="q${i}"]:checked`);
@@ -121,7 +207,11 @@
             });
         }
 
-        loadTest();
+        // Инициализация
+        document.addEventListener('DOMContentLoaded', () => {
+            loadTestsList();
+            document.getElementById('start-test').addEventListener('click', loadSelectedTest);
+        });
     </script>
 </body>
 </html>
