@@ -1,0 +1,19 @@
+[2025-10-11 08:40:49] [Info] Start login attempt
+[2025-10-11 08:40:49] [Info] Received login: '1', password length: 1
+[2025-10-11 08:40:49] [Info] User found in DB. Checking password...
+[2025-10-11 08:40:49] [Error] Wrong password for user: 1
+[2025-10-11 08:41:42] [Info] Start login attempt
+[2025-10-11 08:41:42] [Info] Received login: '2', password length: 1
+[2025-10-11 08:41:42] [Error] User not found: 2
+[2025-10-11 08:45:42] [Info] Start login attempt
+[2025-10-11 08:45:42] [Info] Received login: '2', password length: 1
+[2025-10-11 08:45:42] [Info] User found in DB. Checking password...
+[2025-10-11 08:45:42] [Info] Login successful for user: 2
+[2025-10-11 08:55:32] [Info] Start login attempt
+[2025-10-11 08:55:32] [Info] Received login: '1', password length: 1
+[2025-10-11 08:55:32] [Info] User found in DB. Checking password...
+[2025-10-11 08:55:32] [Info] Login successful for user: 1
+[2025-10-11 08:56:20] [Info] Start login attempt
+[2025-10-11 08:56:20] [Info] Received login: '1', password length: 1
+[2025-10-11 08:56:20] [Info] User found in DB. Checking password...
+[2025-10-11 08:56:20] [Info] Login successful for user: 1

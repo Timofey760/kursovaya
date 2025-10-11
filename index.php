@@ -1,3 +1,11 @@
+<?php
+session_start();
+if (!isset($_SESSION['user_id'])) {
+    header("Location: registration.html"); // Перенаправляем на страницу авторизации
+    exit();
+}
+?>
+
 <!DOCTYPE html>
 <html lang="ru">
 
@@ -28,7 +36,15 @@
             <h1 class="text-center flex-grow-1">Курсовая работа с онлайн тестами</h1>
         </div>
 
-
+        <h1>Добро пожаловать,
+            <?php
+            if (isset($_SESSION['user_login'])) {
+                echo htmlspecialchars($_SESSION['user_login']);
+            } else {
+                echo "Гость";
+            }
+            ?>
+        !</h1>
 
         <!-- Блок загрузки списка тестов -->
         <div id="mainTests" style="visibility:visible;">

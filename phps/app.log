@@ -81,3 +81,13 @@
 2025-10-11 08:20:54 [Error] Login failed. Wrong login or password
 2025-10-11 08:23:37 [INFO] Start login
 2025-10-11 08:23:37 [Error] Login failed. Wrong login or password(1:.1
+2025-10-11 08:28:14 [INFO] Start login
+2025-10-11 08:28:14 [INFO] Array
+2025-10-11 08:28:14 [Error] Login failed. Wrong login or password(1:1)
+2025-10-11 08:29:13 [INFO] Start login
+2025-10-11 08:29:13 [Error] Login failed. Wrong login or password(1:1)
+2025-10-11 08:30:06 [INFO] Start login
+2025-10-11 08:30:06 [INFO] 1
+2025-10-11 08:30:06 [Error] Login failed. Wrong login or password(1:1)
+2025-10-11 08:41:14 [INFO] Start registration
+2025-10-11 08:41:14 [INFO] User registered successfully: 2
