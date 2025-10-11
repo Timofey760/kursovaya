@@ -1,205 +1,66 @@
 <!DOCTYPE html>
 <html lang="ru">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Курсовая работа с онлайн тестами</title>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Личный кабинет</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
     <!-- Подключаем Bootstrap 5 -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <style>
-        .test-item {
-            cursor: pointer;
-            transition: all 0.2s;
-        }
-        .test-item:hover {
-            background-color: #f8f9fa;
-        }
-        .test-item.selected {
-            background-color: #e3f2fd;
-            border-left: 4px solid #1976d2;
-        }
-        .question {
-            border-left: 4px solid #4CAF50;
-        }
-    </style>
+    <script src="libs/sweetalert2@11.js"></script>
+    <script src="script.js" defer></script>
+    <link href="style.css" rel="stylesheet">
+    <link href="libs/bootstrap.min.css" rel="stylesheet">
+
 </head>
+
 <body class="bg-light">
     <div class="container py-4">
-        <h1 class="text-center mb-4">Курсовая работа с онлайн тестами</h1>
+        <!-- Шапка с логотипом -->
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <div>
+                <img src="logo.jpg" alt="Логотип" class="logo" onclick="window.location.reload();">
+            </div>
+            <h1 class="text-center flex-grow-1">Курсовая работа с онлайн тестами</h1>
+        </div>
+
+
 
         <!-- Блок загрузки списка тестов -->
-        <div id="loading-tests" class="text-center my-5">
-            <div class="spinner-border text-primary" role="status">
-                <span class="visually-hidden">Загрузка...</span>
+        <div id="mainTests" style="visibility:visible;">
+            <div id="loading-tests" class="text-center my-5">
+                <div class="spinner-border text-primary" role="status">
+                    <span class="visually-hidden">Загрузка...</span>
+                </div>
+                <p>Загрузка списка тестов...</p>
             </div>
-            <p>Загрузка списка тестов...</p>
-        </div>
 
-        <!-- Меню выбора теста -->
-        <div id="test-menu" class="card shadow-sm p-4 mb-4" style="display: none;">
-            <h3 class="mb-3">Выберите тест:</h3>
-            <div id="test-list" class="list-group"></div>
-            <button id="start-test" class="btn btn-primary mt-3" style="display: none;">Пуск</button>
-        </div>
+            <!-- Меню выбора теста -->
+            <div id="test-menu" class="card shadow-sm p-4 mb-4" style="display: none;">
+                <h3 class="mb-3">Выберите тест:</h3>
+                <div id="test-list" class="list-group"></div>
+                <button id="start-test" class="btn btn-primary mt-3" style="display: none;">Пуск</button>
+            </div>
 
-        <!-- Контейнер для теста -->
-        <div id="test-container" style="display: none;">
-            <div class="card shadow-sm p-4 mb-4">
-                <div id="test-description" class="alert alert-info mb-4"></div>
-                <div id="test"></div>
-                <button id="submit" class="btn btn-success mt-3">Проверить результаты</button>
-                <div id="result" class="alert alert-success mt-3"></div>
+            <!-- Контейнер для теста -->
+            <div id="test-container" style="display: none;">
+                <div class="card shadow-sm p-4 mb-4">
+                    <div id="test-description" class="alert alert-info mb-4"></div>
+                    <div id="test"></div>
+                    <button id="submit" class="btn btn-success mt-3">Проверить результаты</button>
+                    <div id="result" class="alert alert-success mt-3"></div>
+                </div>
             </div>
         </div>
     </div>
+    <!-- Подключаем Bootstrap JS -->
+    <script src="libs/bootstrap.bundle.min.js"></script>
 
-    <!-- Подключаем Bootstrap JS (необязательно, но полезно для некоторых компонентов) -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
-    <script>
-        // Ссылка на TSV-файл со списком тестов
-        const testsListUrl = "https://docs.google.com/spreadsheets/d/e/2PACX-1vT1Sqx40EJT4vwxGxT6zs56qKmXcFC1UprCq_AaGFJrEKifeKtLMcMsg3ltIgdcaK1a4kXHwr0QeatT/pub?output=tsv";
-        let tests = [];
-        let selectedTest = null;
-
-        // Загрузка списка тестов
-        async function loadTestsList() {
-            try {
-                const response = await fetch(testsListUrl);
-                if (!response.ok) throw new Error("Не удалось загрузить список тестов");
-                const tsvData = await response.text();
-                parseTestsList(tsvData);
-            } catch (error) {
-                document.getElementById('loading-tests').innerHTML = `
-                    <div class="alert alert-danger">
-                        Ошибка загрузки списка тестов: ${error.message}
-                    </div>
-                `;
-                console.error(error);
-            }
-        }
-
-        // Парсинг списка тестов
-        function parseTestsList(tsvData) {
-            const lines = tsvData.trim().split('\n').slice(1); // Пропускаем заголовок
-            tests = lines.map(line => {
-                const [n, name, description, url] = line.split('\t');
-                return { name, description, url };
-            });
-            renderTestsMenu();
-        }
-
-        // Отрисовка меню тестов
-        function renderTestsMenu() {
-            const testList = document.getElementById('test-list');
-            testList.innerHTML = '';
-
-            tests.forEach((test, index) => {
-                const testItem = document.createElement('div');
-                testItem.className = 'list-group-item test-item';
-                testItem.textContent = test.name;
-                testItem.addEventListener('click', () => {
-                    document.querySelectorAll('.test-item').forEach(item => {
-                        item.classList.remove('selected');
-                    });
-                    testItem.classList.add('selected');
-                    selectedTest = test;
-                    document.getElementById('start-test').style.display = 'block';
-                });
-                testList.appendChild(testItem);
-            });
-
-            document.getElementById('loading-tests').style.display = 'none';
-            document.getElementById('test-menu').style.display = 'block';
-        }
-
-        // Загрузка и парсинг выбранного теста
-        async function loadSelectedTest() {
-            if (!selectedTest) return;
-
-            document.getElementById('test-menu').style.display = 'none';
-            document.getElementById('test-container').style.display = 'block';
-            document.getElementById('test-description').textContent = selectedTest.description;
-            document.getElementById('test').innerHTML = `
-                <div class="text-center my-5">
-                    <div class="spinner-border text-primary" role="status">
-                        <span class="visually-hidden">Загрузка...</span>
-                    </div>
-                    <p>Загрузка теста...</p>
-                </div>
-            `;
-
-            try {
-                const response = await fetch(selectedTest.url);
-                if (!response.ok) throw new Error("Не удалось загрузить тест");
-                const tsvData = await response.text();
-                parseAndBuildTest(tsvData);
-            } catch (error) {
-                document.getElementById('test').innerHTML = `
-                    <div class="alert alert-danger">
-                        Ошибка загрузки теста: ${error.message}
-                    </div>
-                `;
-                console.error(error);
-            }
-        }
-
-        // Парсинг и построение теста
-        function parseAndBuildTest(tsvData) {
-            const lines = tsvData.trim().split('\n').slice(1); // Пропускаем заголовок
-            const questions = lines.map(line => {
-                const [num, question, opt1, opt2, opt3, opt4, correct] = line.split('\t');
-                return {
-                    question,
-                    options: [opt1, opt2, opt3, opt4],
-                    correct: parseInt(correct) - 1
-                };
-            });
-
-            const testContainer = document.getElementById('test');
-            testContainer.innerHTML = '';
-            let userAnswers = [];
-
-            questions.forEach((q, i) => {
-                const questionDiv = document.createElement('div');
-                questionDiv.className = 'question card mb-3';
-                questionDiv.innerHTML = `
-                    <div class="card-body">
-                        <h5 class="card-title">${i+1}. ${q.question}</h5>
-                        <div class="options">
-                            ${q.options.map((opt, j) => `
-                                <div class="form-check option">
-                                    <input class="form-check-input" type="radio" id="q${i}-opt${j}" name="q${i}" value="${j}">
-                                    <label class="form-check-label" for="q${i}-opt${j}">${opt}</label>
-                                </div>
-                            `).join('')}
-                        </div>
-                    </div>
-                `;
-                testContainer.appendChild(questionDiv);
-            });
-
-            document.getElementById('submit').addEventListener('click', () => {
-                userAnswers = questions.map((_, i) => {
-                    const selected = document.querySelector(`input[name="q${i}"]:checked`);
-                    return selected ? parseInt(selected.value) : null;
-                });
-
-                const correctAnswers = userAnswers.reduce((sum, ans, i) => {
-                    return ans === questions[i].correct ? sum + 1 : sum;
-                }, 0);
-
-                document.getElementById('result').innerHTML = `
-                    <strong>Ваш результат:</strong> ${correctAnswers} из ${questions.length}
-                `;
-            });
-        }
-
-        // Инициализация
-        document.addEventListener('DOMContentLoaded', () => {
-            loadTestsList();
-            document.getElementById('start-test').addEventListener('click', loadSelectedTest);
-        });
-    </script>
 </body>
+
 </html>

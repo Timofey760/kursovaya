@@ -1,0 +1,83 @@
+2025-10-06 19:16:55 [INFO] Start authentication
+2025-10-06 19:16:55 [Error] Invalid JSON data
+2025-10-06 19:16:55 [ERROR] Invalid JSON data
+2025-10-06 19:19:56 [INFO] Start authentication
+2025-10-06 19:19:56 [INFO] Authenticating user: tete
+2025-10-06 19:19:56 [INFO] Authentication successful for user: tete
+2025-10-06 19:25:20 [INFO] Start authentication
+2025-10-06 19:25:20 [INFO] Authenticating user: 1
+2025-10-06 19:25:20 [Error] Authentication failed: Invalid login or password
+2025-10-06 19:25:20 [ERROR] Authentication failed: Invalid login or password
+2025-10-06 19:30:56 [INFO] Start authentication
+2025-10-06 19:30:56 [INFO] Authenticating user: 1
+2025-10-06 19:30:56 [INFO] Authentication successful for user: 1
+2025-10-06 19:31:03 [INFO] Start authentication
+2025-10-06 19:31:04 [INFO] Authenticating user: 1
+2025-10-06 19:31:04 [Error] Authentication failed: Invalid login or password
+2025-10-06 19:31:22 [INFO] Start authentication
+2025-10-06 19:31:22 [INFO] Authenticating user: 1
+2025-10-06 19:31:22 [INFO] Authentication successful for user: 1
+2025-10-06 19:32:50 [INFO] Start authentication
+2025-10-06 19:32:50 [INFO] Authenticating user: 1
+2025-10-06 19:32:50 [Error] Authentication failed: Invalid login or password
+2025-10-06 19:32:59 [INFO] Start authentication
+2025-10-06 19:32:59 [INFO] Authenticating user: 1
+2025-10-06 19:32:59 [Error] Authentication failed: Invalid login or password
+2025-10-06 19:33:05 [INFO] Start authentication
+2025-10-06 19:33:05 [INFO] Authenticating user: 1
+2025-10-06 19:33:05 [INFO] Authentication successful for user: 1
+2025-10-07 12:13:43 [INFO] Start authentication
+2025-10-07 12:13:43 [INFO] Authenticating user: 123
+2025-10-07 12:13:43 [Error] Authentication failed: Invalid login or password
+2025-10-07 12:13:56 [INFO] Start authentication
+2025-10-07 12:13:56 [INFO] Authenticating user: 1
+2025-10-07 12:13:56 [INFO] Authentication successful for user: 1
+2025-10-07 12:15:09 [INFO] Start authentication
+2025-10-07 12:15:09 [INFO] Authenticating user: 1
+2025-10-07 12:15:09 [INFO] Authentication successful for user: 1
+2025-10-08 13:20:07 [INFO] Start authentication
+2025-10-08 13:20:07 [INFO] Authenticating user: 1
+2025-10-08 13:20:07 [INFO] Authentication successful for user: 1
+2025-10-08 13:52:43 [INFO] Start registration
+2025-10-08 13:52:43 [ERROR] Unknown column 'surname' in 'field list'
+2025-10-08 13:53:09 [INFO] Start registration
+2025-10-08 13:53:09 [ERROR] Unknown column 'surname' in 'field list'
+2025-10-08 13:53:55 [INFO] Start registration
+2025-10-08 13:53:56 [ERROR] Unknown column 'surname' in 'field list'
+2025-10-08 14:04:08 [INFO] Start registration
+2025-10-08 14:04:08 [ERROR] Unknown column 'surname' in 'field list'
+2025-10-08 14:07:27 [INFO] Start registration
+2025-10-08 14:07:27 [ERROR] Unknown column 'surname' in 'field list'
+2025-10-08 14:10:03 [INFO] Start registration
+2025-10-08 14:10:03 [INFO] User registered successfully: ewq
+2025-10-08 14:17:31 [INFO] Start authentication
+2025-10-08 14:17:31 [INFO] Authenticating user: 1
+2025-10-08 14:17:31 [Error] Authentication failed: Invalid login or password
+2025-10-08 14:36:14 [INFO] Start registration
+2025-10-08 14:36:14 [INFO] User registered successfully: 11
+2025-10-08 14:36:31 [INFO] Start authentication
+2025-10-08 14:36:31 [INFO] Authenticating user: 1
+2025-10-08 14:36:31 [Error] Authentication failed: User not found
+2025-10-08 14:36:46 [INFO] Start authentication
+2025-10-08 14:36:46 [INFO] Authenticating user: 11
+2025-10-08 14:36:46 [INFO] Authentication successful for user: 11
+2025-10-08 14:39:45 [INFO] Start authentication
+2025-10-08 14:39:45 [INFO] Authenticating user: 11
+2025-10-08 14:39:45 [INFO] Authentication successful for user: 11
+2025-10-11 08:06:00 [INFO] Start registration
+2025-10-11 08:06:00 [Error] User with this login or email already exists
+2025-10-11 08:06:00 [ERROR] Пользователь с таким логином или почтой уже существует.
+2025-10-11 08:06:13 [INFO] Start registration
+2025-10-11 08:06:13 [INFO] User registered successfully: 1
+2025-10-11 08:18:00 [INFO] Start login
+2025-10-11 08:18:00 [Error] Login failed
+2025-10-11 08:20:07 [INFO] Start registration
+2025-10-11 08:20:07 [INFO] User registered successfully: 1
+2025-10-11 08:20:11 [INFO] Start login
+2025-10-11 08:20:11 [Error] Login failed. Wrong login or password
+2025-10-11 08:20:46 [INFO] Start registration
+2025-10-11 08:20:46 [INFO] User registered successfully: 1
+2025-10-11 08:20:54 [INFO] Start login
+2025-10-11 08:20:54 [Error] Login failed. Wrong login or password
+2025-10-11 08:23:37 [INFO] Start login
+2025-10-11 08:23:37 [Error] Login failed. Wrong login or password(1:.1
