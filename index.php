@@ -67,7 +67,7 @@ if (!isset($_SESSION['user_id'])) {
                 <div class="card shadow-sm p-4 mb-4">
                     <div id="test-description" class="alert alert-info mb-4"></div>
                     <div id="test"></div>
-                    <button id="submit" class="btn btn-success mt-3">Проверить результаты</button>
+                    <button id="submit" class="btn btn-success mt-3">Проверить результаты(<span id='countAttempt'>3</span>)</button>
                     <div id="result" class="alert alert-success mt-3"></div>
                 </div>
             </div>

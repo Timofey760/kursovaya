@@ -17,3 +17,11 @@
 [2025-10-11 08:56:20] [Info] Received login: '1', password length: 1
 [2025-10-11 08:56:20] [Info] User found in DB. Checking password...
 [2025-10-11 08:56:20] [Info] Login successful for user: 1
+[2025-10-13 18:15:01] [Info] Start login attempt
+[2025-10-13 18:15:01] [Info] Received login: '1', password length: 1
+[2025-10-13 18:15:01] [Info] User found in DB. Checking password...
+[2025-10-13 18:15:01] [Info] Login successful for user: 1
+[2025-10-13 18:33:17] [Info] Start login attempt
+[2025-10-13 18:33:17] [Info] Received login: '1', password length: 1
+[2025-10-13 18:33:17] [Info] User found in DB. Checking password...
+[2025-10-13 18:33:17] [Info] Login successful for user: 1

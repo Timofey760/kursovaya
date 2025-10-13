@@ -2,12 +2,7 @@
 const testsListUrl = "https://docs.google.com/spreadsheets/d/e/2PACX-1vT1Sqx40EJT4vwxGxT6zs56qKmXcFC1UprCq_AaGFJrEKifeKtLMcMsg3ltIgdcaK1a4kXHwr0QeatT/pub?output=tsv";
 let tests = [];
 let selectedTest = null;
-
-
-
-
-
-
+let countAttempt = 3;
 
 // Функция для перемешивания массива (алгоритм Фишера-Йетса)
 function shuffleArray(array) {
@@ -158,8 +153,86 @@ function parseAndBuildTest(tsvData) {
         document.getElementById('result').innerHTML = `
                     <strong>Ваш результат:</strong> ${correctAnswers} из ${questions.length}
                 `;
+        if (countAttempt == 0)
+            Swal.fire({
+                title: 'Попытки закончились',
+                icon: 'warning',
+                confirmButtonText: 'OK'
+            })
+        else {
+            countAttempt--;
+            document.getElementById("countAttempt").innerHTML = countAttempt+"";
+        }
     });
 }
+
+// document.getElementById('submit').addEventListener('click', async () => {
+//     userAnswers = questions.map((_, i) => {
+//         const selected = document.querySelector(`input[name="q${i}"]:checked`);
+//         return selected ? parseInt(selected.value) : null;
+//     });
+
+//     const correctAnswers = userAnswers.reduce((sum, ans, i) => {
+//         return ans === correctAnswersMap[i] ? sum + 1 : sum;
+//     }, 0);
+
+//     document.getElementById('result').innerHTML = `
+//         <strong>Ваш результат:</strong> ${correctAnswers} из ${questions.length}
+//     `;
+
+//     if (countAttempt === 0) {
+//         Swal.fire({
+//             title: 'Попытки закончились',
+//             icon: 'warning',
+//             confirmButtonText: 'OK'
+//         });
+//     } else {
+//         countAttempt--;
+//         document.getElementById("countAttempt").innerHTML = countAttempt + "";
+
+//         // Отправляем результаты на сервер
+//         try {
+//             const response = await fetch('phps/save_test_result.php', {
+//                 method: 'POST',
+//                 headers: {
+//                     'Content-Type': 'application/json',
+//                 },
+//                 body: JSON.stringify({
+//                     user_id: <?php echo isset($_SESSION['user_id']) ? $_SESSION['user_id'] : 'null'; ?>,
+//                     test_name: selectedTest.name,
+//                     correct_answers: correctAnswers,
+//                     total_questions: questions.length,
+//                     attempts_left: countAttempt
+//                 }),
+//             });
+
+//             const result = await response.json();
+//             if (result.status === 'success') {
+//                 Swal.fire({
+//                     title: 'Результат сохранён!',
+//                     icon: 'success',
+//                     confirmButtonText: 'OK'
+//                 });
+//             } else {
+//                 Swal.fire({
+//                     title: 'Ошибка!',
+//                     text: result.message || 'Не удалось сохранить результат.',
+//                     icon: 'error',
+//                     confirmButtonText: 'OK'
+//                 });
+//             }
+//         } catch (error) {
+//             Swal.fire({
+//                 title: 'Ошибка!',
+//                 text: 'Произошла ошибка при сохранении результата.',
+//                 icon: 'error',
+//                 confirmButtonText: 'OK'
+//             });
+//             console.error(error);
+//         }
+//     }
+// });
+
 
 // Инициализация
 document.addEventListener('DOMContentLoaded', () => {
@@ -168,71 +241,71 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 // Функция для запроса логина и пароля
-async function requestCredentials() {
-    const { value: login } = await Swal.fire({
-        title: 'Введите логин',
-        input: 'text',
-        inputPlaceholder: 'Ваш логин',
-        showCancelButton: true,
-        confirmButtonText: 'Далее',
-        cancelButtonText: 'Отмена',
-        inputValidator: (value) => {
-            if (!value) {
-                return 'Логин не может быть пустым!';
-            }
-        }
-    });
+// async function requestCredentials() {
+//     const { value: login } = await Swal.fire({
+//         title: 'Введите логин',
+//         input: 'text',
+//         inputPlaceholder: 'Ваш логин',
+//         showCancelButton: true,
+//         confirmButtonText: 'Далее',
+//         cancelButtonText: 'Отмена',
+//         inputValidator: (value) => {
+//             if (!value) {
+//                 return 'Логин не может быть пустым!';
+//             }
+//         }
+//     });
 
-    if (!login) {
-        return; // Пользователь нажал "Отмена"
-    }
+//     if (!login) {
+//         return; // Пользователь нажал "Отмена"
+//     }
 
-    const { value: password } = await Swal.fire({
-        title: 'Введите пароль',
-        input: 'password',
-        inputPlaceholder: 'Ваш пароль',
-        showCancelButton: true,
-        confirmButtonText: 'Войти',
-        cancelButtonText: 'Отмена',
-        inputValidator: (value) => {
-            if (!value) {
-                return 'Пароль не может быть пустым!';
-            }
-        }
-    });
+//     const { value: password } = await Swal.fire({
+//         title: 'Введите пароль',
+//         input: 'password',
+//         inputPlaceholder: 'Ваш пароль',
+//         showCancelButton: true,
+//         confirmButtonText: 'Войти',
+//         cancelButtonText: 'Отмена',
+//         inputValidator: (value) => {
+//             if (!value) {
+//                 return 'Пароль не может быть пустым!';
+//             }
+//         }
+//     });
 
-    if (password) {
+//     if (password) {
 
-        // Здесь можно добавить логику обработки логина и пароля
-  // Отправляем логин и пароль на сервер
-                const response = await fetch('phps/login.php', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({ login, password }),
-                });
+//         // Здесь можно добавить логику обработки логина и пароля
+//   // Отправляем логин и пароль на сервер
+//                 const response = await fetch('phps/login.php', {
+//                     method: 'POST',
+//                     headers: {
+//                         'Content-Type': 'application/json',
+//                     },
+//                     body: JSON.stringify({ login, password }),
+//                 });
 
-                const result = await response.json();
+//                 const result = await response.json();
 
-                if (result.status === 'success') {
-                    Swal.fire({
-                        title: 'Успешная авторизация!',
-                        icon: 'success',
-                        confirmButtonText: 'OK'
-                    });
-                    document.getElementById('mainTests').style.visibility = 'visible';
-                } else {
-                    Swal.fire({
-                        title: 'Ошибка!',
-                        text: result.message || 'Неверный логин или пароль',
-                        icon: 'error',
-                        confirmButtonText: 'OK'
-                    });
-                }
-            }
+//                 if (result.status === 'success') {
+//                     Swal.fire({
+//                         title: 'Успешная авторизация!',
+//                         icon: 'success',
+//                         confirmButtonText: 'OK'
+//                     });
+//                     document.getElementById('mainTests').style.visibility = 'visible';
+//                 } else {
+//                     Swal.fire({
+//                         title: 'Ошибка!',
+//                         text: result.message || 'Неверный логин или пароль',
+//                         icon: 'error',
+//                         confirmButtonText: 'OK'
+//                     });
+//                 }
+//             }
 
-    }
+//     }
 
 
 // Запускаем функцию при загрузке страницы
