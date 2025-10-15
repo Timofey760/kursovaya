@@ -91,3 +91,34 @@
 2025-10-11 08:30:06 [Error] Login failed. Wrong login or password(1:1)
 2025-10-11 08:41:14 [INFO] Start registration
 2025-10-11 08:41:14 [INFO] User registered successfully: 2
+2025-10-14 12:59:53 [INFO] Start registration
+2025-10-14 12:59:54 [INFO] User registered successfully: 3
+2025-10-15 13:16:16 [INFO] Start registration
+2025-10-15 13:16:19 [INFO] Start registration
+2025-10-15 13:16:20 [ERROR] Подключение не установлено, т.к. конечный компьютер отверг запрос на подключение
+2025-10-15 13:16:23 [ERROR] Подключение не установлено, т.к. конечный компьютер отверг запрос на подключение
+2025-10-15 13:16:32 [INFO] Start registration
+2025-10-15 13:16:36 [ERROR] Подключение не установлено, т.к. конечный компьютер отверг запрос на подключение
+2025-10-15 13:16:40 [INFO] Start registration
+2025-10-15 13:16:44 [ERROR] Подключение не установлено, т.к. конечный компьютер отверг запрос на подключение
+2025-10-15 13:17:04 [INFO] Start registration
+2025-10-15 13:17:08 [ERROR] Подключение не установлено, т.к. конечный компьютер отверг запрос на подключение
+2025-10-15 13:17:35 [INFO] Start registration
+2025-10-15 13:17:39 [ERROR] Подключение не установлено, т.к. конечный компьютер отверг запрос на подключение
+2025-10-15 13:17:47 [INFO] Start registration
+2025-10-15 13:17:51 [ERROR] Подключение не установлено, т.к. конечный компьютер отверг запрос на подключение
+2025-10-15 13:24:51 [INFO] Start registration
+2025-10-15 13:24:55 [ERROR] Подключение не установлено, т.к. конечный компьютер отверг запрос на подключение
+2025-10-15 13:27:00 [INFO] Start registration
+2025-10-15 13:27:04 [ERROR] Подключение не установлено, т.к. конечный компьютер отверг запрос на подключение
+2025-10-15 13:27:27 [INFO] Start registration
+2025-10-15 13:27:27 [Error] User with this login or email already exists
+2025-10-15 13:27:41 [INFO] Start registration
+2025-10-15 13:27:41 [Error] User with this login or email already exists
+2025-10-15 13:28:04 [INFO] Start registration
+2025-10-15 13:28:04 [Error] User with this login or email already exists
+2025-10-15 13:29:13 [INFO] Start registration
+2025-10-15 13:29:13 [Error] User with this login or email already exists
+2025-10-15 13:29:13 [ERROR] Пользователь с таким логином или почтой уже существует.
+2025-10-15 13:32:28 [INFO] Start registration
+2025-10-15 13:32:29 [Error] User with this login or email already exists
