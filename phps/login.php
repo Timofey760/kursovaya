@@ -2,12 +2,7 @@
 header('Content-Type: application/json');
 session_start();
 require_once 'db_connect.php';
-
-function logMessage($message, $type = "Info") {
-    $logFile = 'auth.log';
-    $timestamp = date('Y-m-d H:i:s');
-    file_put_contents($logFile, "[$timestamp] [$type] $message\n", FILE_APPEND);
-}
+require_once 'log.php';
 
 logMessage("Start login attempt");
 

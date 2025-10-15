@@ -122,3 +122,26 @@
 2025-10-15 13:29:13 [ERROR] Пользователь с таким логином или почтой уже существует.
 2025-10-15 13:32:28 [INFO] Start registration
 2025-10-15 13:32:29 [Error] User with this login or email already exists
+2025-10-15 14:06:18 [INFO] get_user_data.php started
+2025-10-15 14:07:14 [INFO] get_user_data.php started
+2025-10-15 14:07:14 [INFO]  = getDbConnection();
+2025-10-15 14:08:25 [INFO] get_user_data.php started
+2025-10-15 14:08:25 [INFO] !!!
+2025-10-15 14:08:57 [INFO] get_user_data.php started
+2025-10-15 14:10:05 [INFO] get_user_data.php started
+2025-10-15 14:11:29 [INFO] get_user_data.php started
+2025-10-15 14:12:56 [INFO] get_user_data.php started
+2025-10-15 14:13:47 [INFO] get_user_data.php started
+2025-10-15 14:13:47 [INFO] 5
+2025-10-15 14:14:26 [INFO] get_user_data.php started
+2025-10-15 14:14:26 [INFO] 5
+2025-10-15 14:15:40 [INFO] get_user_data.php started
+2025-10-15 14:17:26 [INFO] get_user_data.php started
+2025-10-15 14:20:50 [INFO] get_user_data.php started
+2025-10-15 14:20:50 [INFO] 5
+2025-10-15 14:23:25 [INFO] get_user_data.php started
+2025-10-15 14:23:25 [INFO] 5
+2025-10-15 14:25:21 [INFO] !!
+2025-10-15 14:25:44 [INFO] !!
+2025-10-15 14:26:23 [INFO] !!
+2025-10-15 14:29:07 [INFO] !!

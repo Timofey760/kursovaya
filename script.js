@@ -240,6 +240,8 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('start-test').addEventListener('click', loadSelectedTest);
 });
 
+
+
 // Функция для запроса логина и пароля
 // async function requestCredentials() {
 //     const { value: login } = await Swal.fire({
