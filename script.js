@@ -140,7 +140,35 @@ function parseAndBuildTest(tsvData) {
         correctAnswersMap.push(correctIndex); // Сохраняем новый индекс правильного ответа
     });
 
-    document.getElementById('submit').addEventListener('click', () => {
+    //     document.getElementById('submit').addEventListener('click', () => {
+    //         userAnswers = questions.map((_, i) => {
+    //             const selected = document.querySelector(`input[name="q${i}"]:checked`);
+    //             return selected ? parseInt(selected.value) : null;
+    //         });
+
+    //         const correctAnswers = userAnswers.reduce((sum, ans, i) => {
+    //             return ans === correctAnswersMap[i] ? sum + 1 : sum;
+    //         }, 0);
+
+    //         document.getElementById('result').innerHTML = `
+    //                     <strong>Ваш результат:</strong> ${correctAnswers} из ${questions.length}
+    //                 `;
+    //         if (countAttempt == 0)
+    //             Swal.fire({
+    //                 title: 'Попытки закончились',
+    //                 icon: 'warning',
+    //                 confirmButtonText: 'OK'
+    //             })
+    //         else {
+    //             countAttempt--;
+    //             document.getElementById("countAttempt").innerHTML = countAttempt+"";
+    //         }
+    //     });
+    // }
+
+    console.log("Текущий user_id:", currentUserId);
+
+    document.getElementById('submit').addEventListener('click', async () => {
         userAnswers = questions.map((_, i) => {
             const selected = document.querySelector(`input[name="q${i}"]:checked`);
             return selected ? parseInt(selected.value) : null;
@@ -151,88 +179,62 @@ function parseAndBuildTest(tsvData) {
         }, 0);
 
         document.getElementById('result').innerHTML = `
-                    <strong>Ваш результат:</strong> ${correctAnswers} из ${questions.length}
-                `;
-        if (countAttempt == 0)
+        <strong>Ваш результат:</strong> ${correctAnswers} из ${questions.length}
+    `;
+
+        if (countAttempt === 0) {
             Swal.fire({
                 title: 'Попытки закончились',
                 icon: 'warning',
                 confirmButtonText: 'OK'
-            })
-        else {
+            });
+        } else {
             countAttempt--;
-            document.getElementById("countAttempt").innerHTML = countAttempt+"";
+            document.getElementById("countAttempt").innerHTML = countAttempt + "";
+
+            // Отправляем результаты на сервер
+            try {
+                const response = await fetch('phps/save_test_result.php', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        user_id: currentUserId,
+                        test_name: selectedTest.name,
+                        correct_answers: correctAnswers,
+                        total_questions: questions.length,
+                        attempts_left: countAttempt
+                    }),
+                });
+
+                const result = await response.json();
+                if (result.status === 'success') {
+                    Swal.fire({
+                        title: 'Результат сохранён!',
+                        icon: 'success',
+                        confirmButtonText: 'OK'
+                    });
+                } else {
+                    Swal.fire({
+                        title: 'Ошибка!',
+                        text: result.message || 'Не удалось сохранить результат.',
+                        icon: 'error',
+                        confirmButtonText: 'OK'
+                    });
+                }
+            } catch (error) {
+                Swal.fire({
+                    title: 'Ошибка!',
+                    text: 'Произошла ошибка при сохранении результата.',
+                    icon: 'error',
+                    confirmButtonText: 'OK'
+                });
+                console.error(error);
+            }
         }
     });
 }
-
-// document.getElementById('submit').addEventListener('click', async () => {
-//     userAnswers = questions.map((_, i) => {
-//         const selected = document.querySelector(`input[name="q${i}"]:checked`);
-//         return selected ? parseInt(selected.value) : null;
-//     });
-
-//     const correctAnswers = userAnswers.reduce((sum, ans, i) => {
-//         return ans === correctAnswersMap[i] ? sum + 1 : sum;
-//     }, 0);
-
-//     document.getElementById('result').innerHTML = `
-//         <strong>Ваш результат:</strong> ${correctAnswers} из ${questions.length}
-//     `;
-
-//     if (countAttempt === 0) {
-//         Swal.fire({
-//             title: 'Попытки закончились',
-//             icon: 'warning',
-//             confirmButtonText: 'OK'
-//         });
-//     } else {
-//         countAttempt--;
-//         document.getElementById("countAttempt").innerHTML = countAttempt + "";
-
-//         // Отправляем результаты на сервер
-//         try {
-//             const response = await fetch('phps/save_test_result.php', {
-//                 method: 'POST',
-//                 headers: {
-//                     'Content-Type': 'application/json',
-//                 },
-//                 body: JSON.stringify({
-//                     user_id: <?php echo isset($_SESSION['user_id']) ? $_SESSION['user_id'] : 'null'; ?>,
-//                     test_name: selectedTest.name,
-//                     correct_answers: correctAnswers,
-//                     total_questions: questions.length,
-//                     attempts_left: countAttempt
-//                 }),
-//             });
-
-//             const result = await response.json();
-//             if (result.status === 'success') {
-//                 Swal.fire({
-//                     title: 'Результат сохранён!',
-//                     icon: 'success',
-//                     confirmButtonText: 'OK'
-//                 });
-//             } else {
-//                 Swal.fire({
-//                     title: 'Ошибка!',
-//                     text: result.message || 'Не удалось сохранить результат.',
-//                     icon: 'error',
-//                     confirmButtonText: 'OK'
-//                 });
-//             }
-//         } catch (error) {
-//             Swal.fire({
-//                 title: 'Ошибка!',
-//                 text: 'Произошла ошибка при сохранении результата.',
-//                 icon: 'error',
-//                 confirmButtonText: 'OK'
-//             });
-//             console.error(error);
-//         }
-//     }
-// });
-
 
 // Инициализация
 document.addEventListener('DOMContentLoaded', () => {

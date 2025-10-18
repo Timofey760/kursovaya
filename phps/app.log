@@ -145,3 +145,19 @@
 2025-10-15 14:25:44 [INFO] !!
 2025-10-15 14:26:23 [INFO] !!
 2025-10-15 14:29:07 [INFO] !!
+2025-10-18 07:46:08 [INFO] Start login attempt
+2025-10-18 07:46:08 [INFO] Received login: '3', password length: 1
+2025-10-18 07:46:08 [INFO] User found in DB. Checking password...
+2025-10-18 07:46:08 [INFO] Login successful for user: 3
+2025-10-18 07:46:20 [INFO] get_user_data.php started
+2025-10-18 07:46:20 [INFO] 7
+2025-10-18 08:05:10 [INFO] Start login attempt
+2025-10-18 08:05:10 [INFO] Received login: '1', password length: 1
+2025-10-18 08:05:10 [Error] User not found: 1
+2025-10-18 08:05:23 [INFO] Start login attempt
+2025-10-18 08:05:23 [INFO] Received login: '2', password length: 1
+2025-10-18 08:05:23 [INFO] User found in DB. Checking password...
+2025-10-18 08:05:23 [INFO] Login successful for user: 2
+2025-10-18 08:44:02 [INFO] Start saving test result
+2025-10-18 08:44:02 [INFO] Data: user_id=7, test_name=тестовый, correct_answers=0, total_questions=11, attempts_left=2
+2025-10-18 08:44:02 [INFO] Test result saved successfully

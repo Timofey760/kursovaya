@@ -17,7 +17,7 @@ if (!isset($_SESSION['user_id'])) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Личный кабинет</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <!-- <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}"> -->
     <!-- Подключаем Bootstrap 5 -->
     <script src="libs/sweetalert2@11.js"></script>
     <script src="script.js" defer></script>
@@ -34,6 +34,7 @@ if (!isset($_SESSION['user_id'])) {
                 <img src="logo.jpg" alt="Логотип" class="logo" onclick="window.location.reload();">
             </div>
             <h1 class="text-center flex-grow-1">Курсовая работа с онлайн тестами</h1>
+            <button id="profile-button" class="btn btn-sm btn-outline-secondary ms-3">Личный кабинет</button>
         </div>
 
         <h1>Добро пожаловать,
@@ -44,7 +45,7 @@ if (!isset($_SESSION['user_id'])) {
                 echo "Гость";
             }
             ?>
-            <button id="profile-button" class="btn btn-sm btn-outline-secondary ms-3">Личный кабинет</button>
+            
         !</h1>
 
         <!-- Блок загрузки списка тестов -->
@@ -121,6 +122,9 @@ if (!isset($_SESSION['user_id'])) {
 </div>
 
 <script>
+    // Передаём user_id в JavaScript
+    const currentUserId = <?php echo isset($_SESSION['user_id']) ? $_SESSION['user_id'] : 'null'; ?>;
+    
     // Загрузка данных пользователя в модальное окно
     async function loadUserData() {
         try {
