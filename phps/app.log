@@ -161,3 +161,12 @@
 2025-10-18 08:44:02 [INFO] Start saving test result
 2025-10-18 08:44:02 [INFO] Data: user_id=7, test_name=тестовый, correct_answers=0, total_questions=11, attempts_left=2
 2025-10-18 08:44:02 [INFO] Test result saved successfully
+2025-10-20 18:06:18 [INFO] Start login attempt
+2025-10-20 18:06:18 [INFO] Received login: '3', password length: 1
+2025-10-20 18:06:18 [INFO] User found in DB. Checking password...
+2025-10-20 18:06:18 [INFO] Login successful for user: 3
+2025-10-20 18:06:35 [INFO] Start saving test result
+2025-10-20 18:06:35 [INFO] Data: user_id=7, test_name=тест по С#, correct_answers=0, total_questions=20, attempts_left=2
+2025-10-20 18:06:35 [INFO] Test result saved successfully
+2025-10-20 18:06:40 [INFO] get_user_data.php started
+2025-10-20 18:06:40 [INFO] 7
