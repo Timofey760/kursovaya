@@ -314,3 +314,4 @@ document.addEventListener('DOMContentLoaded', () => {
 
 // Запускаем функцию при загрузке страницы
 //window.onload = requestCredentials;
+

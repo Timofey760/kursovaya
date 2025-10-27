@@ -133,7 +133,7 @@ $pageTitle = "Результаты тестов для $userLogin";
 
         <!-- Кнопка для возврата на главную страницу -->
         <div class="mt-4">
-            <a href="index.php" class="btn btn-primary">Вернуться на главную</a>
+            <a href="../index.php" class="btn btn-primary">Вернуться на главную</a>
         </div>
     </div>
 
