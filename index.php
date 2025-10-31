@@ -12,7 +12,7 @@ if (!isset($_SESSION['user_id'])) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Курсовая работа с онлайн тестами</title>
+    <title>Сайт с онлайн тестами</title>
 
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -34,7 +34,10 @@ if (!isset($_SESSION['user_id'])) {
                 <img src="logo.jpg" alt="Логотип" class="logo" onclick="window.location.reload();">
             </div>
             <h1 class="text-center flex-grow-1">Курсовая работа с онлайн тестами</h1>
-            <button id="profile-button" class="btn btn-sm btn-outline-secondary ms-3">Личный кабинет</button>
+            <button id="profile-button" class="btn btn-sm btn-outline-secondary ms-3">Личный кабинет</button><br>
+            <div id="test-result-button" style='visibility:collapse;'>
+            <a href='http://localhost/gtests/phps/all_test_results.php'><button  class="btn btn-sm btn-outline-secondary ms-3">Результаты тестов</button></a>
+            </div>
         </div>
 
         <h1>Добро пожаловать,
@@ -124,6 +127,15 @@ if (!isset($_SESSION['user_id'])) {
 <script>
     // Передаём user_id в JavaScript
     const currentUserId = <?php echo isset($_SESSION['user_id']) ? $_SESSION['user_id'] : 'null'; ?>;
+   const currentUserLogin = '<?php echo isset($_SESSION['user_login']) ? $_SESSION['user_login'] : 'null'; ?>';
+    console.log(currentUserLogin);
+    if (currentUserLogin=='admin') 
+    {
+        document.getElementById('test-result-button').style.visibility='visible';
+    }
+    else{
+        document.getElementById('test-result-button').style.visibility='collapse';
+    }
     
     // Загрузка данных пользователя в модальное окно
     async function loadUserData() {

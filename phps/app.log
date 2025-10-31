@@ -170,3 +170,173 @@
 2025-10-20 18:06:35 [INFO] Test result saved successfully
 2025-10-20 18:06:40 [INFO] get_user_data.php started
 2025-10-20 18:06:40 [INFO] 7
+2025-10-21 12:06:48 [INFO] Start login attempt
+2025-10-21 12:06:48 [INFO] Received login: '3', password length: 1
+2025-10-21 12:06:48 [INFO] User found in DB. Checking password...
+2025-10-21 12:06:48 [INFO] Login successful for user: 3
+2025-10-21 12:07:03 [INFO] Start saving test result
+2025-10-21 12:07:03 [INFO] Data: user_id=7, test_name=тестовый, correct_answers=0, total_questions=11, attempts_left=2
+2025-10-21 12:07:03 [INFO] Test result saved successfully
+2025-10-21 12:07:08 [INFO] get_user_data.php started
+2025-10-21 12:07:08 [INFO] 7
+2025-10-21 12:36:27 [INFO] Start login attempt
+2025-10-21 12:36:27 [INFO] Received login: '3', password length: 1
+2025-10-21 12:36:27 [INFO] User found in DB. Checking password...
+2025-10-21 12:36:27 [INFO] Login successful for user: 3
+2025-10-21 12:36:44 [INFO] Start saving test result
+2025-10-21 12:36:44 [INFO] Data: user_id=7, test_name=тестовый, correct_answers=0, total_questions=11, attempts_left=2
+2025-10-21 12:36:44 [INFO] Test result saved successfully
+2025-10-21 12:36:48 [INFO] get_user_data.php started
+2025-10-21 12:36:48 [INFO] 7
+2025-10-21 12:36:55 [INFO] get_user_data.php started
+2025-10-21 12:36:55 [INFO] 7
+2025-10-21 12:41:58 [INFO] Start login attempt
+2025-10-21 12:41:58 [INFO] Received login: '3', password length: 1
+2025-10-21 12:41:58 [INFO] User found in DB. Checking password...
+2025-10-21 12:41:58 [INFO] Login successful for user: 3
+2025-10-22 13:20:07 [INFO] Start login attempt
+2025-10-22 13:20:07 [INFO] Received login: '1', password length: 1
+2025-10-22 13:20:07 [Error] User not found: 1
+2025-10-22 13:20:12 [INFO] Start login attempt
+2025-10-22 13:20:12 [INFO] Received login: '1', password length: 2
+2025-10-22 13:20:12 [Error] User not found: 1
+2025-10-22 13:20:28 [INFO] Start login attempt
+2025-10-22 13:20:28 [INFO] Received login: '2', password length: 1
+2025-10-22 13:20:28 [INFO] User found in DB. Checking password...
+2025-10-22 13:20:28 [INFO] Login successful for user: 2
+2025-10-22 13:20:35 [INFO] get_user_data.php started
+2025-10-22 13:20:35 [INFO] 6
+2025-10-22 13:30:55 [INFO] Start registration
+2025-10-22 13:30:55 [ERROR] Access denied for user 'root'@'localhost' (using password: NO)
+2025-10-22 13:32:29 [INFO] Start registration
+2025-10-22 13:32:29 [ERROR] Access denied for user ''@'localhost' (using password: NO)
+2025-10-22 13:33:28 [INFO] Start registration
+2025-10-22 13:33:28 [ERROR] Access denied for user ''@'localhost' (using password: NO)
+2025-10-22 13:37:45 [INFO] Start registration
+2025-10-22 13:37:45 [INFO] User registered successfully: admin
+2025-10-22 13:38:19 [INFO] Start registration
+2025-10-22 13:38:19 [ERROR] Access denied for user ''@'localhost' (using password: NO)
+2025-10-22 13:38:26 [INFO] Start registration
+2025-10-22 13:38:26 [ERROR] Access denied for user ''@'localhost' (using password: NO)
+2025-10-22 13:38:31 [INFO] Start registration
+2025-10-22 13:38:31 [ERROR] Access denied for user ''@'localhost' (using password: NO)
+2025-10-22 13:44:36 [INFO] Start registration
+2025-10-22 13:44:36 [INFO] User registered successfully: admin2
+2025-10-22 13:55:24 [INFO] Start login attempt
+2025-10-22 13:55:24 [INFO] Received login: 'admin', password length: 6
+2025-10-22 13:55:24 [INFO] User found in DB. Checking password...
+2025-10-22 13:55:24 [INFO] Login successful for user: admin
+2025-10-22 14:17:01 [INFO] get_user_data.php started
+2025-10-22 14:17:01 [INFO] 8
+2025-10-22 14:17:59 [INFO] Start login attempt
+2025-10-22 14:17:59 [INFO] Received login: '2', password length: 1
+2025-10-22 14:17:59 [INFO] User found in DB. Checking password...
+2025-10-22 14:18:00 [Error] Wrong password for user: 2
+2025-10-22 14:18:32 [INFO] Start login attempt
+2025-10-22 14:18:32 [INFO] Received login: '2', password length: 1
+2025-10-22 14:18:32 [INFO] User found in DB. Checking password...
+2025-10-22 14:18:32 [Error] Wrong password for user: 2
+2025-10-22 14:18:42 [INFO] Start login attempt
+2025-10-22 14:18:42 [INFO] Received login: '3', password length: 1
+2025-10-22 14:18:42 [INFO] User found in DB. Checking password...
+2025-10-22 14:18:42 [INFO] Login successful for user: 3
+2025-10-22 14:23:12 [INFO] Start login attempt
+2025-10-22 14:23:12 [INFO] Received login: 'admin', password length: 5
+2025-10-22 14:23:12 [INFO] User found in DB. Checking password...
+2025-10-22 14:23:12 [Error] Wrong password for user: admin
+2025-10-22 14:23:17 [INFO] Start login attempt
+2025-10-22 14:23:17 [INFO] Received login: 'admin', password length: 6
+2025-10-22 14:23:17 [INFO] User found in DB. Checking password...
+2025-10-22 14:23:17 [INFO] Login successful for user: admin
+2025-10-24 08:35:54 [INFO] Start login attempt
+2025-10-24 08:35:54 [INFO] Received login: '3', password length: 1
+2025-10-24 08:35:54 [INFO] User found in DB. Checking password...
+2025-10-24 08:35:55 [INFO] Login successful for user: 3
+2025-10-24 08:36:22 [INFO] Start login attempt
+2025-10-24 08:36:22 [INFO] Received login: 'admin', password length: 5
+2025-10-24 08:36:22 [INFO] User found in DB. Checking password...
+2025-10-24 08:36:22 [Error] Wrong password for user: admin
+2025-10-24 08:36:31 [INFO] Start login attempt
+2025-10-24 08:36:31 [INFO] Received login: 'admin', password length: 5
+2025-10-24 08:36:31 [INFO] User found in DB. Checking password...
+2025-10-24 08:36:31 [Error] Wrong password for user: admin
+2025-10-24 08:36:51 [INFO] Start login attempt
+2025-10-24 08:36:51 [INFO] Received login: 'admin', password length: 5
+2025-10-24 08:36:51 [INFO] User found in DB. Checking password...
+2025-10-24 08:36:51 [Error] Wrong password for user: admin
+2025-10-24 08:41:01 [INFO] Start registration
+2025-10-24 08:41:01 [Error] User with this login or email already exists
+2025-10-24 08:41:35 [INFO] Start registration
+2025-10-24 08:41:35 [Error] User with this login or email already exists
+2025-10-24 08:41:58 [INFO] Start registration
+2025-10-24 08:41:58 [Error] User with this login or email already exists
+2025-10-24 08:42:20 [INFO] Start login attempt
+2025-10-24 08:42:20 [INFO] Received login: 'admin', password length: 5
+2025-10-24 08:42:20 [INFO] User found in DB. Checking password...
+2025-10-24 08:42:20 [Error] Wrong password for user: admin
+2025-10-24 08:45:22 [INFO] Start login attempt
+2025-10-24 08:45:22 [INFO] Received login: 'admin', password length: 5
+2025-10-24 08:45:22 [INFO] User found in DB. Checking password...
+2025-10-24 08:45:23 [Error] Wrong password for user: admin
+2025-10-24 08:45:43 [INFO] Start login attempt
+2025-10-24 08:45:43 [INFO] Received login: 'admin', password length: 5
+2025-10-24 08:45:43 [INFO] User found in DB. Checking password...
+2025-10-24 08:45:43 [Error] Wrong password for user: admin
+2025-10-24 08:48:04 [INFO] Start login attempt
+2025-10-24 08:48:04 [INFO] Received login: 'admin', password length: 5
+2025-10-24 08:48:04 [INFO] User found in DB. Checking password...
+2025-10-24 08:48:04 [Error] Wrong password for user: admin
+2025-10-24 08:48:16 [INFO] Start login attempt
+2025-10-24 08:48:16 [INFO] Received login: 'admin', password length: 6
+2025-10-24 08:48:16 [INFO] User found in DB. Checking password...
+2025-10-24 08:48:16 [INFO] Login successful for user: admin
+2025-10-24 08:53:00 [INFO] Start login attempt
+2025-10-24 08:53:00 [INFO] Received login: 'admin', password length: 5
+2025-10-24 08:53:00 [INFO] User found in DB. Checking password...
+2025-10-24 08:53:00 [Error] Wrong password for user: admin
+2025-10-24 08:53:07 [INFO] Start login attempt
+2025-10-24 08:53:07 [INFO] Received login: 'admin', password length: 6
+2025-10-24 08:53:07 [INFO] User found in DB. Checking password...
+2025-10-24 08:53:08 [INFO] Login successful for user: admin
+2025-10-24 08:54:30 [INFO] Start login attempt
+2025-10-24 08:54:30 [INFO] Received login: '3', password length: 1
+2025-10-24 08:54:30 [INFO] User found in DB. Checking password...
+2025-10-24 08:54:31 [INFO] Login successful for user: 3
+2025-10-24 08:54:36 [INFO] get_user_data.php started
+2025-10-24 08:54:36 [INFO] 7
+2025-10-24 08:54:43 [INFO] get_user_data.php started
+2025-10-24 08:54:43 [INFO] 7
+2025-10-26 07:14:06 [INFO] Start login attempt
+2025-10-26 07:14:06 [INFO] Received login: 'admin', password length: 5
+2025-10-26 07:14:07 [INFO] User found in DB. Checking password...
+2025-10-26 07:14:07 [Error] Wrong password for user: admin
+2025-10-26 07:14:16 [INFO] Start login attempt
+2025-10-26 07:14:16 [INFO] Received login: 'admin', password length: 6
+2025-10-26 07:14:16 [INFO] User found in DB. Checking password...
+2025-10-26 07:14:16 [INFO] Login successful for user: admin
+2025-10-26 07:14:43 [INFO] get_user_data.php started
+2025-10-26 07:14:43 [INFO] 8
+2025-10-26 07:14:55 [INFO] get_user_data.php started
+2025-10-26 07:14:55 [INFO] 8
+2025-10-27 17:31:22 [INFO] Start login attempt
+2025-10-27 17:31:22 [INFO] Received login: 'admin', password length: 6
+2025-10-27 17:31:24 [INFO] Start login attempt
+2025-10-27 17:31:24 [INFO] Received login: 'admin', password length: 6
+2025-10-27 17:31:26 [Error] Database error: SQLSTATE[HY000] [2002] Подключение не установлено, т.к. конечный компьютер отверг запрос на подключение
+2025-10-27 17:31:28 [Error] Database error: SQLSTATE[HY000] [2002] Подключение не установлено, т.к. конечный компьютер отверг запрос на подключение
+2025-10-27 17:31:38 [INFO] Start login attempt
+2025-10-27 17:31:38 [INFO] Received login: 'admin', password length: 6
+2025-10-27 17:31:42 [Error] Database error: SQLSTATE[HY000] [2002] Подключение не установлено, т.к. конечный компьютер отверг запрос на подключение
+2025-10-27 17:31:42 [INFO] Start login attempt
+2025-10-27 17:31:42 [INFO] Received login: 'admin', password length: 6
+2025-10-27 17:31:46 [Error] Database error: SQLSTATE[HY000] [2002] Подключение не установлено, т.к. конечный компьютер отверг запрос на подключение
+2025-10-27 17:32:03 [INFO] Start login attempt
+2025-10-27 17:32:03 [INFO] Received login: 'admin', password length: 6
+2025-10-27 17:32:07 [Error] Database error: SQLSTATE[HY000] [2002] Подключение не установлено, т.к. конечный компьютер отверг запрос на подключение
+2025-10-27 17:32:21 [INFO] Start login attempt
+2025-10-27 17:32:21 [INFO] Received login: 'admin', password length: 6
+2025-10-27 17:32:25 [Error] Database error: SQLSTATE[HY000] [2002] Подключение не установлено, т.к. конечный компьютер отверг запрос на подключение
+2025-10-27 17:35:01 [INFO] Start login attempt
+2025-10-27 17:35:01 [INFO] Received login: 'admin', password length: 6
+2025-10-27 17:35:02 [INFO] User found in DB. Checking password...
+2025-10-27 17:35:02 [INFO] Login successful for user: admin

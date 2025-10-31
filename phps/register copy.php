@@ -1,16 +1,11 @@
 <?php
 require_once 'log.php';
+require_once 'db_connect.php';
 
 logMessage("Start registration");
 
-// Подключение к базе данных
-$servername = "localhost";
-$dbUsername = "root"; // Логин для подключения к БД
-$dbPassword = ""; // Пароль для подключения к БД
-$dbname = "test_cs";
-
 try {
-    $conn = new mysqli($servername, $dbUsername, $dbPassword, $dbname);
+    $conn = new mysqli($host, $user, $pass, $db);
     if ($conn->connect_error) {
         throw new Exception("Connection failed: " . $conn->connect_error);
     }
