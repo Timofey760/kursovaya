@@ -340,3 +340,11 @@
 2025-10-27 17:35:01 [INFO] Received login: 'admin', password length: 6
 2025-10-27 17:35:02 [INFO] User found in DB. Checking password...
 2025-10-27 17:35:02 [INFO] Login successful for user: admin
+2025-11-02 07:24:27 [INFO] Start login attempt
+2025-11-02 07:24:27 [INFO] Received login: 'admin', password length: 6
+2025-11-02 07:24:27 [INFO] User found in DB. Checking password...
+2025-11-02 07:24:27 [INFO] Login successful for user: admin
+2025-11-02 07:41:24 [INFO] Start login attempt
+2025-11-02 07:41:24 [INFO] Received login: 'admin', password length: 6
+2025-11-02 07:41:24 [INFO] User found in DB. Checking password...
+2025-11-02 07:41:24 [INFO] Login successful for user: admin
