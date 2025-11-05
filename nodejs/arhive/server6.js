@@ -6,18 +6,10 @@ const GAME_STATES = {
     RESET: 'reset'
 };
 
-const address = 'ws://localhost:8080';
-// const address = 'ws://185.26.121.49:8080'
 const WebSocket = require('ws');
-
-// Извлекаем порт из адреса (например, 'ws://localhost:8080' → 8080)
-const port = new URL(address).port || 8080;
-
-const wss = new WebSocket.Server({ port });
+const wss = new WebSocket.Server({ port: 8080 });
 const hostClients = new Map(); // Отдельный набор для хостов
-
-console.log(`WebSocket server is running on ${address}`);
-
+console.log('WebSocket server is running on ws://localhost:8080');
 
 // Хранилище для игр: ключ — идентификатор игры, значение — объект с состоянием игры
 const games = new Map(); // { gameId: { state, clients, hostClients, fastestPlayer } }
@@ -33,16 +25,6 @@ wss.on('connection', (ws) => {
             const { type, gameId, isHost } = data;
             if (isHost)//команда от управляющего
                 switch (type) {
-                    case 'get_game_state':
-                        console.log(data);
-                        //ws.send(JSON.stringify({ type: 'game_state', message: game.state }));
-                        break;
-
-                    case 'joinHostToGame':
-                        console.log('Join Host to game');
-                        joinHostToGame(ws, data);
-                        break;
-
                     case 'getPlayers':
                         sendPlayersListToHosts(ws, gameId);
                         break;
@@ -58,7 +40,7 @@ wss.on('connection', (ws) => {
                     case 'startGame':
                         startGame(ws, data)
                         break;
-                    case 'setRegistrationMode':
+                    case 'registrationMode':
                         registrationMode(ws, data);
                         break;
                     case 'stopGame':
@@ -76,13 +58,6 @@ wss.on('connection', (ws) => {
                         deletePlayer(ws, data)
                         ws.send(JSON.stringify({ type: 'playerDeleted', message: `Игрок ${data.message} был удален` }));
                         break;
-                    case 'pause':
-                        pause(ws,gameId);
-                        break;
-                    case 'reset':
-                        reset(ws,gameId);
-
-                    break;
                     default:
                         ws.send(JSON.stringify({ type: 'error', message: `не известная команда от хоста(${type})` }));
                 }
@@ -98,8 +73,8 @@ wss.on('connection', (ws) => {
                     case 'fire':
                         fire(ws, data)
                         break;
-                    // default:
-                    //     handleGameMessage(ws, data);
+                    default:
+                        handleGameMessage(ws, data);
                 }
         } catch (error) {
             console.error('Error parsing message:', error);
@@ -111,8 +86,6 @@ wss.on('connection', (ws) => {
         handleClientDisconnect(ws);
     });
 });
-
-
 function sendPlayersListToHosts(ws, gameId) {
     // Проверяем, существует ли игра
     if (!games.has(gameId)) {
@@ -125,7 +98,6 @@ function sendPlayersListToHosts(ws, gameId) {
     // Проверяем, есть ли хосты в игре
     if (!game.hostClients || game.hostClients.size === 0) {
         console.log(`В игре с ID ${gameId} нет ведущих`);
-        // Если нет ведущих, отправляем сообщение только клиенту, который запросил список
         ws.send(JSON.stringify({ type: 'error', message: `В игре с ID ${gameId} нет ведущих` }));
         return;
     }
@@ -159,6 +131,8 @@ function sendPlayersListToHosts(ws, gameId) {
 }
 
 
+
+
 function createGame(ws, data) {
     const { gameId, name, isHost } = data;
 
@@ -186,41 +160,6 @@ function createGame(ws, data) {
     }));
 }
 
-// function deletePlayer(ws, data) {
-//     const { gameId, name } = data;
-
-//     // Проверяем, существует ли игра
-//     if (!games.has(gameId)) {
-//         ws.send(JSON.stringify({ type: 'error', message: `Игра с ID ${gameId} не найдена` }));
-//         return;
-//     }
-
-//     const game = games.get(gameId);
-
-//     // Находим WebSocket клиента по имени
-//     let playerWebSocket = null;
-//     for (const [clientWs, client] of game.clients) {
-//         if (client.name === name) {
-//             playerWebSocket = clientWs;
-//             break;
-//         }
-//     }
-
-
-
-//     // Удаляем игрока из игры
-//     game.clients.delete(playerWebSocket);
-
-//     // Отправляем подтверждение об удалении
-//     ws.send(JSON.stringify({ type: 'playerDeleted', message: `Игрок ${name} был удален` }));
-
-//     // Обновляем список игроков у ведущего
-//     //updateHostPlayerList(gameId);
-//     sendPlayersListToHosts(ws, gameId);
-
-
-// }
-
 function deletePlayer(ws, data) {
     const { gameId, name } = data;
 
@@ -243,17 +182,17 @@ function deletePlayer(ws, data) {
 
 
 
-    // Формируем сообщение об удалении игрока
-    const deleteMessage = JSON.stringify({
-        type: 'playerDeleted',
-        message: `Игрок ${name} был удален`,
-        gameId: gameId
-    });
-
-    // Отправляем сообщение об удалении игрока всем клиентам в игре
-    broadcastToAllInGame(gameId, deleteMessage);
     // Удаляем игрока из игры
     game.clients.delete(playerWebSocket);
+
+    // Отправляем подтверждение об удалении
+    ws.send(JSON.stringify({ type: 'playerDeleted', message: `Игрок ${name} был удален` }));
+
+    // Обновляем список игроков у ведущего
+    //updateHostPlayerList(gameId);
+    sendPlayersListToHosts(ws, gameId);
+
+
 }
 
 
@@ -292,8 +231,6 @@ function joinGame(ws, data) {
     sendPlayersListToHosts(ws, gameId);
 }
 
-
-// Обновленная функция joinHostToGame на сервере
 function joinHostToGame(ws, data) {
     const { gameId, name, isHost } = data;
 
@@ -301,7 +238,6 @@ function joinHostToGame(ws, data) {
         ws.send(JSON.stringify({ type: 'error', message: `Отсутствует статус хоста` }));
         return;
     }
-
     // Проверяем, существует ли игра
     if (!games.has(gameId)) {
         ws.send(JSON.stringify({ type: 'error', message: `Игра с ID ${gameId} не найдена` }));
@@ -317,88 +253,89 @@ function joinHostToGame(ws, data) {
         return;
     }
 
-    // Добавляем ведущего в игру
+    // Добавляем игрока
     game.hostClients.set(ws, { name: name });
 
-    // Отправляем подтверждение
     ws.send(JSON.stringify({
         type: 'registered',
         message: `Добро пожаловать, ${name}. Вы хост в игре:${gameId}`
     }));
-
-    console.log(`Ведущий ${name} присоединился к игре ${gameId}`);
-    console.log(`Количество ведущих в игре ${gameId}: ${game.hostClients.size}`);
-
-    // Обновляем список игроков у ведущего
-    sendPlayersListToHosts(ws, gameId);
+    console.log(game.hostClients);
+    //sendPlayersListToHosts(ws, gameId);
 }
 
-// function handleGameMessage(ws, data) {
+function getGames(ws) {
+    const gameList = Array.from(games.keys());
+    ws.send(JSON.stringify({ type: 'gameList', games: gameList }));
+}
 
-//     const { gameId, type } = data;
-//     const game = games.get(gameId);
-//     console.log(data, gameId);
-//     if (!game) {
-//         ws.send(JSON.stringify({ type: 'error', message: `Игра с ID ${gameId} не найдена` }));
-//         return;
-//     }
 
-//     const clientData = game.clients.get(ws);
+function handleGameMessage(ws, data) {
 
-//     switch (type) {
-//         case 'get_game_state':
-//             ws.send(JSON.stringify({ type: 'game_state', message: game.state }));
-//             break;
-//         // case 'registrationMode':
-//         //     if (clientData && clientData.isHost) {
-//         //         game.state = GAME_STATES.WAITING;
-//         //         broadcast(gameId, JSON.stringify({ type: 'registration', message: "Режим регистрации" }));
-//         //     }
-//         //     break;
-//         case 'fire':
-//             if (clientData && game.state === GAME_STATES.RUNNING && !game.fastestPlayer && !clientData.hasAnswered) {
-//                 game.fastestPlayer = clientData.name;
-//                 clientData.hasAnswered = true;
-//                 broadcast(gameId, JSON.stringify({ type: 'fastest', fastest: game.fastestPlayer }));
-//             }
-//             break;
-//         // case 'play':
-//         //     //console.log(`clientData:${clientData} clientData.isHost:${clientData.isHost}`)
-//         //     //if (clientData && clientData.isHost) 
-//         //     {
-//         //         console.log('play', gameId)
-//         //         play(ws, gameId);
-//         //     }
-//         //     break;
-//         // case 'pause':
-//         //     if (clientData && clientData.isHost) {
-//         //         pause(ws, gameId);
-//         //     }
-//         //     break;
-//         // case 'stop':
-//         //     if (clientData && clientData.isHost) {
-//         //         stop(ws, gameId);
-//         //     }
-//         //     break;
-//         // case 'reset':
-//         //     if (clientData && clientData.isHost) {
-//         //         reset(ws, gameId);
-//         //     }
-//         //     break;
-//         // case 'newRound':
-//         //     if (clientData && clientData.isHost) {
-//         //         newRound(ws, gameId);
-//         //     }
-//         //     break;
-//         // case 'getGames':
-//         //     getGames(ws);
-//         //     break;
-//         // case 'deleteGame':
-//         //     deleteGame(ws, data);
-//         //     break;
+    const { gameId, type } = data;
+    const game = games.get(gameId);
+    console.log(data, gameId);
+    if (!game) {
+        ws.send(JSON.stringify({ type: 'error', message: `Игра с ID ${gameId} не найдена` }));
+        return;
+    }
 
-//     }
-// }
+    const clientData = game.clients.get(ws);
+
+    switch (type) {
+        case 'get_game_state':
+            ws.send(JSON.stringify({ type: 'game_state', message: game.state }));
+            break;
+        // case 'registrationMode':
+        //     if (clientData && clientData.isHost) {
+        //         game.state = GAME_STATES.WAITING;
+        //         broadcast(gameId, JSON.stringify({ type: 'registration', message: "Режим регистрации" }));
+        //     }
+        //     break;
+        case 'fire':
+            if (clientData && game.state === GAME_STATES.RUNNING && !game.fastestPlayer && !clientData.hasAnswered) {
+                game.fastestPlayer = clientData.name;
+                clientData.hasAnswered = true;
+                broadcast(gameId, JSON.stringify({ type: 'fastest', fastest: game.fastestPlayer }));
+            }
+            break;
+        case 'play':
+            //console.log(`clientData:${clientData} clientData.isHost:${clientData.isHost}`)
+            //if (clientData && clientData.isHost) 
+            {
+                console.log('play', gameId)
+                play(ws, gameId);
+            }
+            break;
+        case 'pause':
+            if (clientData && clientData.isHost) {
+                pause(ws, gameId);
+            }
+            break;
+        case 'stop':
+            if (clientData && clientData.isHost) {
+                stop(ws, gameId);
+            }
+            break;
+        case 'reset':
+            if (clientData && clientData.isHost) {
+                reset(ws, gameId);
+            }
+            break;
+        case 'newRound':
+            if (clientData && clientData.isHost) {
+                newRound(ws, gameId);
+            }
+            break;
+        case 'getGames':
+            getGames(ws);
+            break;
+        case 'deleteGame':
+            deleteGame(ws, data);
+            break;
+
+    }
+}
 
 function handleClientDisconnect(ws) {
     // Находим игру, в которой участвовал клиент
@@ -420,71 +357,36 @@ function handleClientDisconnect(ws) {
     }
 }
 
-// function broadcastById(gameId, message, excludeNonRegistered = true, excludeAnswered = true) {
-//     const game = games.get(gameId);
-//     if (!game) return;
-
-//     let i = 0;
-//     game.clients.forEach((client, ws) => {
-//         if (excludeNonRegistered && !client.ready) return;
-//         if (excludeAnswered && client.hasAnswered) return;
-//         if (ws.readyState === WebSocket.OPEN) {
-//             ws.send(message);
-//             i++;
-//         }
-//     });
-//     console.log(`Отправка ${i} клиентам в игре ${gameId}`);
-// }
-
-
-
-// function registrationMode_(ws, gameId) {
-//     const game = games.get(gameId);
-//     if (!game) return;
-//     {
-//         gameState = GAME_STATES.WAITING;
-//         //broadcast("Режим регистрации");
-//         broadcast(gameId, JSON.stringify({ type: 'registration', message: "Режим регистрации" }));
-//         ws.send(JSON.stringify({ type: 'registration', 'gameId': gameId }));
-
-//     }
-
-// }
-
-function registrationMode(ws, data) {
-    const { gameId } = data;
-
-    // Проверяем, существует ли игра
-    if (!games.has(gameId)) {
-        ws.send(JSON.stringify({ type: 'error', message: `Игра с ID ${gameId} не найдена` }));
-        return;
-    }
-
+function broadcastById(gameId, message, excludeNonRegistered = true, excludeAnswered = true) {
     const game = games.get(gameId);
+    if (!game) return;
 
-    // Устанавливаем состояние игры в WAITING
-    game.state = GAME_STATES.WAITING;
-
-    // Формируем сообщение о режиме регистрации
-    const registrationMessage = JSON.stringify({
-        type: 'registrationMode',
-        message: "Режим регистрации",
-        gameId: gameId
+    let i = 0;
+    game.clients.forEach((client, ws) => {
+        if (excludeNonRegistered && !client.ready) return;
+        if (excludeAnswered && client.hasAnswered) return;
+        if (ws.readyState === WebSocket.OPEN) {
+            ws.send(message);
+            i++;
+        }
     });
-
-    // Рассылаем сообщение всем клиентам в игре
-    broadcastToAllInGame(gameId, registrationMessage);
-
-    // Рассылаем сообщение всем хостам в игре
-    broadcastToHosts(gameId, registrationMessage);
-
-    // Отправляем подтверждение хосту
-    ws.send(JSON.stringify({
-        type: 'registrationMode',
-        gameId: gameId
-    }));
+    console.log(`Отправка ${i} клиентам в игре ${gameId}`);
 }
 
+
+
+function registrationMode(ws, gameId) {
+    const game = games.get(gameId);
+    if (!game) return;
+    {
+        gameState = GAME_STATES.WAITING;
+        //broadcast("Режим регистрации");
+        broadcast(gameId, JSON.stringify({ type: 'registration', message: "Режим регистрации" }));
+        ws.send(JSON.stringify({ type: 'registration', 'gameId': gameId }));
+
+    }
+
+}
 
 function play(ws, gameId) {
     console.log(gameId)
@@ -525,26 +427,25 @@ function reset(ws, gameId) {
     game.state = GAME_STATES.WAITING;
     game.clients.clear();
     broadcast(JSON.stringify({ type: 'reset', message: 'Игра сброшена. Пожалуйста зарегистрируйтесь заново', gameId: gameId }), false);
-  //  UpdateClientsList(gameId);
-    sendPlayersListToHosts(ws, gameId);
+    UpdateClientsList(gameId);
     ws.send(JSON.stringify({ type: 'gameReset', 'gameId': gameId }));
 }
 
 function newRound(ws, data) {
-    const { gameId } = data;
+    const {gameId}=data;
     console.log('New round started ', gameId);
     const game = games.get(gameId);
     if (!game) return;
-    game.state = GAME_STATES.RUNNING;
+
     game.clients.forEach((client) => {
         client.hasAnswered = false;
         console.log(client);
     });
     game.fastestPlayer = null;
-
+    
     //broadcast(JSON.stringify({ type: 'newRound', message: 'Новый раунд начат!', gameId: gameId }));
     ws.send(JSON.stringify({ type: 'newRound', 'gameId': gameId }));
-    broadcastToAllInGame(gameId, JSON.stringify({ type: 'newRound', 'gameId': gameId }));
+    broadcastToAllInGame(gameId, JSON.stringify( { type: 'newRound', 'gameId': gameId }));
 }
 
 function getGames(ws) {
@@ -584,13 +485,12 @@ function fire(ws, data) {
     }
 
     const game = games.get(gameId);
-    if (game.state == GAME_STATES.RESET || game.state == GAME_STATES.WAITING) return;
 
     // Проверяем, что игра в состоянии RUNNING
-    // if (game.state !== GAME_STATES.RUNNING) {
-    //     ws.send(JSON.stringify({ type: 'error', message: `Игра не в состоянии RUNNING` }));
-    //     return;
-    // }
+    if (game.state !== GAME_STATES.RUNNING) {
+        ws.send(JSON.stringify({ type: 'error', message: `Игра не в состоянии RUNNING` }));
+        return;
+    }
 
     // Получаем данные клиента
     const clientData = game.clients.get(ws);
@@ -655,145 +555,3 @@ function broadcastToHosts(gameId, message) {
         }
     });
 }
-
-function startGame(ws, data) {
-    const { gameId } = data;
-
-    // Проверяем, существует ли игра
-    if (!games.has(gameId)) {
-        ws.send(JSON.stringify({ type: 'error', message: `Игра с ID ${gameId} не найдена` }));
-        return;
-    }
-
-    const game = games.get(gameId);
-
-    // Проверяем, что игра в состоянии WAITING
-    // if (game.state !== GAME_STATES.WAITING) {
-    //     ws.send(JSON.stringify({ type: 'error', message: `Игра не в состоянии WAITING` }));
-    //     return;
-    // }
-
-    // Устанавливаем состояние игры в RUNNING
-    game.state = GAME_STATES.RUNNING;
-
-    // Сбрасываем самого быстрого игрока
-    game.fastestPlayer = null;
-
-    // Формируем сообщение о начале игры
-    const startMessage = JSON.stringify({
-        type: 'play',
-        message: 'Играем!',
-        gameId: gameId
-    });
-
-    // Рассылаем сообщение всем клиентам в игре
-    broadcastToAllInGame(gameId, startMessage);
-
-    // Рассылаем сообщение всем хостам в игре
-    broadcastToHosts(gameId, startMessage);
-
-    // Отправляем подтверждение хосту
-    ws.send(JSON.stringify({
-        type: 'gameRunning',
-        gameId: gameId
-    }));
-}
-
-function stopGame(ws, data) {
-    const { gameId } = data;
-
-    // Проверяем, существует ли игра
-    if (!games.has(gameId)) {
-        ws.send(JSON.stringify({ type: 'error', message: `Игра с ID ${gameId} не найдена` }));
-        return;
-    }
-
-    const game = games.get(gameId);
-
-    // Проверяем, что игра в состоянии RUNNING или PAUSED
-    if (game.state !== GAME_STATES.RUNNING && game.state !== GAME_STATES.PAUSED) {
-        ws.send(JSON.stringify({ type: 'error', message: `Игра не в состоянии RUNNING или PAUSED` }));
-        return;
-    }
-
-    // Устанавливаем состояние игры в STOPPED
-    game.state = GAME_STATES.STOPPED;
-
-    // Сбрасываем самого быстрого игрока
-    game.fastestPlayer = null;
-
-    // Формируем сообщение об остановке игры
-    const stopMessage = JSON.stringify({
-        type: 'stop',
-        message: 'Игра остановлена...',
-        gameId: gameId
-    });
-
-    // Рассылаем сообщение всем клиентам в игре
-    broadcastToAllInGame(gameId, stopMessage);
-
-    // Рассылаем сообщение всем хостам в игре
-    broadcastToHosts(gameId, stopMessage);
-
-    // Отправляем подтверждение хосту
-    ws.send(JSON.stringify({
-        type: 'gameStopped',
-        gameId: gameId
-    }));
-}
-
-
-function registrationMode(ws, data) {
-    const { gameId } = data;
-
-    // Проверяем, существует ли игра
-    if (!games.has(gameId)) {
-        ws.send(JSON.stringify({ type: 'error', message: `Игра с ID ${gameId} не найдена` }));
-        return;
-    }
-
-    const game = games.get(gameId);
-
-    // Устанавливаем состояние игры в WAITING
-    game.state = GAME_STATES.WAITING;
-
-    // Формируем сообщение о режиме регистрации
-    const registrationMessage = JSON.stringify({
-        type: 'registrationMode',
-        message: "Режим регистрации",
-        gameId: gameId
-    });
-
-    // Рассылаем сообщение всем клиентам в игре
-    broadcastToAllInGame(gameId, registrationMessage);
-
-    // Рассылаем сообщение всем хостам в игре
-    broadcastToHosts(gameId, registrationMessage);
-
-    // Отправляем подтверждение хосту
-    ws.send(JSON.stringify({
-        type: 'registrationMode',
-        gameId: gameId
-    }));
-}
-
-// function notifyClientsAboutRestart() {
-//     // Формируем сообщение о перезапуске сервера
-//     const restartMessage = JSON.stringify({
-//         type: 'serverRestart',
-//         message: 'Сервер перезапускается. Пожалуйста, переподключитесь.'
-//     });
-
-//     // Рассылаем сообщение всем клиентам
-//     wss.clients.forEach((client) => {
-//         if (client.readyState === WebSocket.OPEN) {
-//             try {
-//                 client.send(restartMessage);
-//                 console.log('Сообщение о перезапуске сервера отправлено клиенту');
-//             } catch (error) {
-//                 console.error('Ошибка при отправке сообщения о перезапуске сервера:', error);
-//             }
-//         }
-//     });
-// }
-
