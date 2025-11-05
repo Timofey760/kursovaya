@@ -601,10 +601,10 @@ function fire(ws, data) {
         return;
     }
 
-    if (clientData.hasAnswered) {
-        console.log("Клиент уже отвечал");
-        return;
-    }
+    // if (clientData.hasAnswered) {
+    //     console.log("Клиент уже отвечал");
+    //     return;
+    // }
 
     // Устанавливаем, что этот клиент ответил первым
     game.fastestPlayer = clientData.name;
