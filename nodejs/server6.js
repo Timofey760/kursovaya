@@ -6,8 +6,9 @@ const GAME_STATES = {
     RESET: 'reset'
 };
 
-const address = 'ws://localhost:8080';
+//const address = 'ws://localhost:8080';
 // const address = 'ws://185.26.121.49:8080'
+const address = 'ws://192.168.0.190:8080';
 const WebSocket = require('ws');
 
 // Извлекаем порт из адреса (например, 'ws://localhost:8080' → 8080)
