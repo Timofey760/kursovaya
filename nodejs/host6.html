@@ -115,89 +115,93 @@
 
 <body>
     <div class="container">
-        <h1 class="mb-4 text-center">Панель управления игрой "Кто быстрее"</h1>
+        <h3 class="mb-4 text-center">Панель управления игрой "Кто быстрее"</h1>
 
-        <!-- Блок информации о хосте -->
-        <div class="row mb-4">
-            <div class="col-12">
-                <div class="game-info">
-                    <div class="row">
-                        <div class="col-md-6 mb-3 mb-md-0">
-                            <div class="input-group">
-                                <span class="input-group-text">Ваше имя</span>
-                                <input type="text" id="hostName" class="form-control" placeholder="Введите ваше имя"
-                                    value="Ведущий">
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="input-group">
-                                <span class="input-group-text">ID игры</span>
-                                <input type="text" id="gameIdInput" class="form-control" placeholder="Введите ID игры"
-                                    value="game01">
-                                <button class="btn btn-primary" onclick="createNewGame()">Создать новую игру</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Блок выбора существующей игры -->
-        <div class="row mb-4">
-            <div class="col-12">
-                <div class="game-card">
-                    <h5 class="mb-3">Выбор существующей игры</h5>
-                    <div class="row">
-                        <div class="col-md-8">
-                            <select id="gameSelect" class="form-select">
-                                <option value="">Выберите игру из списка</option>
-                            </select>
-                        </div>
-                        <div class="col-md-4">
-                            <button class="btn btn-info w-100" onclick="refreshGameList()">Обновить список игр</button>
-                        </div>
-                    </div>
-                    <div class="mt-3">
-                        <button class="btn btn-success w-100" onclick="joinSelectedGame()">Присоединиться как
-                            ведущий</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Основной блок управления игрой (скрыт по умолчанию) -->
-        <div id="gameManagement" class="game-card" style="display: none;">
-            <h4 class="mb-3">Управление игрой: <span id="currentGameIdDisplay" class="game-id-display"></span>
-                <span id="gameStatusBadge" class="status-badge">Не выбрано</span>
-            </h4>
-
-            <!-- Блок управления игрой -->
-            <div class="control-buttons mb-4">
-                <button id="startGameBtn" class="btn btn-success" onclick="startGame()">Старт игры</button>
-                <button id="pauseGameBtn" class="btn btn-warning" onclick="pauseGame()">Пауза</button>
-                <button id="stopGameBtn" class="btn btn-danger" onclick="stopGame()">Стоп</button>
-                <button id="newRoundBtn" class="btn btn-primary" onclick="newRound()">Новый раунд</button>
-                <button id="resetGameBtn" class="btn btn-secondary" onclick="resetGame()">Сброс игры</button>
-                <button id="registerGameBtn" class="btn btn-info" onclick="registerGame()">Режим регистрации</button>
-            </div>
-
-            <!-- Блок со списком игроков -->
-            <div class="row">
-                <div class="col-md-6">
-                    <div class="card mb-4">
-                        <div class="card-body">
-                            <h5 class="card-title d-flex justify-content-between align-items-center">
-                                Список игроков
-                                <button class="btn btn-sm btn-outline-info"
-                                    onclick="refreshPlayerList()">Обновить</button>
-                            </h5>
-                            <div class="player-list" id="playerList">
-                                <p class="text-muted">Нет игроков</p>
+            <!-- Блок информации о хосте -->
+            <details>
+                <div class="row mb-4">
+                    <div class="col-12">
+                        <div class="game-info">
+                            <div class="row">
+                                <div class="col-md-6 mb-3 mb-md-0">
+                                    <div class="input-group">
+                                        <span class="input-group-text">Ваше имя</span>
+                                        <input type="text" id="hostName" class="form-control"
+                                            placeholder="Введите ваше имя" value="Ведущий">
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="input-group">
+                                        <span class="input-group-text">ID игры</span>
+                                        <input type="text" id="gameIdInput" class="form-control"
+                                            placeholder="Введите ID игры" value="game01">
+                                        <button class="btn btn-primary" onclick="createNewGame()">Создать новую
+                                            игру</button>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
 
+                <!-- Блок выбора существующей игры -->
+                <div class="row mb-4">
+                    <div class="col-12">
+                        <div class="game-card">
+                            <h5 class="mb-3">Выбор существующей игры</h5>
+                            <div class="row">
+                                <div class="col-md-8">
+                                    <select id="gameSelect" class="form-select">
+                                        <option value="">Выберите игру из списка</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-4">
+                                    <button class="btn btn-info w-100" onclick="refreshGameList()">Обновить список
+                                        игр</button>
+                                </div>
+                            </div>
+                            <div class="mt-3">
+                                <button class="btn btn-success w-100" onclick="joinSelectedGame()">Присоединиться как
+                                    ведущий</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </details>
+            <!-- Основной блок управления игрой (скрыт по умолчанию) -->
+            <div id="gameManagement" class="game-card" style="display: none;">
+                <h4 class="mb-3">Управление игрой: <span id="currentGameIdDisplay" class="game-id-display"></span>
+                    <span id="gameStatusBadge" class="status-badge">Не выбрано</span>
+                </h4>
+
+                <!-- Блок управления игрой -->
+                <div class="control-buttons mb-4">
+                    <button id="startGameBtn" class="btn btn-success" onclick="startGame()">Старт игры</button>
+                    <button id="pauseGameBtn" class="btn btn-warning" onclick="pauseGame()">Пауза</button>
+                    <button id="stopGameBtn" class="btn btn-danger" onclick="stopGame()">Стоп</button>
+                    <button id="newRoundBtn" class="btn btn-primary" onclick="newRound()">Новый раунд</button>
+                    <button id="resetGameBtn" class="btn btn-secondary" onclick="resetGame()">Сброс игры</button>
+                    <button id="registerGameBtn" class="btn btn-info" onclick="registerGame()">Режим
+                        регистрации</button>
+                </div>
+
+                <!-- Блок со списком игроков -->
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="card mb-4">
+                            <div class="card-body">
+                                <h5 class="card-title d-flex justify-content-between align-items-center">
+                                    Список игроков
+                                    <button class="btn btn-sm btn-outline-info"
+                                        onclick="refreshPlayerList()">Обновить</button>
+                                </h5>
+                                <div class="player-list" id="playerList">
+                                    <p class="text-muted">Нет игроков</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!--
                 <div class="col-md-6">
                     <div class="card mb-4">
                         <div class="card-body">
@@ -217,578 +221,612 @@
                     </div>
                 </div>
             </div>
-
-            <!-- Блок информации о последнем победителе -->
-            <div class="card">
-                <div class="card-body">
-                    <h5 class="card-title">Последний победитель</h5>
-                    <p id="fastestPlayerInfo" class="card-text">Еще не было раундов</p>
+-->
+                    <!-- Блок информации о последнем победителе -->
+                    <div class="card">
+                        <div class="card-body">
+                            <!--<label class="card-title" for="hostInfo">Журнал:</label>-->
+                            <textarea id="hostLog" class="card-text" cols="100"></textarea>
+                        </div>
+                    </div>
                 </div>
             </div>
-        </div>
-    </div>
 
-    <!-- Bootstrap 5 JS и Popper.js -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script>
-        let socket;
-        let currentGameId = '';
-        let currentGameState = '';
-        let fastestPlayer = null;
+            <!-- Bootstrap 5 JS и Popper.js -->
+            <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+            <script>
+                let socket;
+                let currentGameId = '';
+                let currentGameState = '';
+                let fastestPlayer = null;
 
-        // Подключение к WebSocket серверу
-        function connect() {
-            socket = new WebSocket(address);
+                // Подключение к WebSocket серверу
+                function connect() {
+                    socket = new WebSocket(address);
 
-            socket.onopen = function () {
-                console.log('Соединение с сервером установлено');
-                updateStatus('Соединение с сервером установлено', 'success');
-                refreshGameList();
-            };
-
-            socket.onmessage = function (event) {
-                const data = JSON.parse(event.data);
-                console.log('Получено сообщение:', data);
-
-                handleServerMessage(data);
-            };
-
-            socket.onclose = function () {
-                console.log('Соединение с сервером закрыто');
-                updateStatus('Соединение с сервером закрыто. Попытка переподключения...', 'warning');
-                setTimeout(connect, 1000);
-            };
-
-            socket.onerror = function (error) {
-                console.log('Ошибка соединения:', error);
-                updateStatus('Ошибка соединения с сервером', 'danger');
-            };
-        }
-
-        // Обработка сообщений от сервера
-        function handleServerMessage(data) {
-            switch (data.type) {
-                case 'joinHostToGame':
-                    console.log('Присоединился новый ведущий');
-                    updateStatus(data.message, 'success');
-                    //updateGameStatus(GAME_STATES.WAITING);
-
-                    break;
-                case 'gameList':
-                    updateGameList(data.games || data.players);
-                    break;
-
-                case 'game_created':
-                    updateStatus(data.message, 'success');
-                    currentGameId = data.gameId;
-                    document.getElementById('currentGameIdDisplay').textContent = currentGameId;
-                    document.getElementById('gameManagement').style.display = 'block';
-                    updateGameStatus(GAME_STATES.WAITING);
-                    refreshGameList();
-                    break;
-
-                case 'playerList':
-                    updatePlayerList(data.players, data.gameId);
-                    break;
-
-                case 'playerDeleted':
-                    updateStatus(data.message, 'info');
-                    refreshPlayerList();
-                    break;
-
-                case 'set_game_state':
-                    updateGameStatus(data.message);
-                    break;
-
-                case 'fastest':
-                    updateFastestPlayer(data.fastest);
-                    updateStatus(`Победитель раунда: ${data.fastest}`, 'info');
-                    speak(data.fastest);
-                    break;
-
-                case 'gameRunning':
-                    updateGameStatus(GAME_STATES.RUNNING);
-                    break;
-
-                case 'gamePaused':
-                    updateGameStatus(GAME_STATES.PAUSED);
-                    break;
-
-                case 'gameStopped':
-                    updateGameStatus(GAME_STATES.STOPPED);
-                    break;
-
-                case 'gameReset':
-                    updateGameStatus(GAME_STATES.WAITING);
-                    break;
-
-                case 'newRound':
-                    updateGameStatus(GAME_STATES.RUNNING);
-                    updateStatus('Новый раунд начат!', 'info');
-                    fastestPlayer = null;
-                    document.getElementById('fastestPlayerInfo').textContent = 'Еще не было победителей в этом раунде';
-                    break;
-
-                case 'registered':
-                    updateGameStatus(GAME_STATES.WAITING);
-                    updateStatus(data.message, 'success');
-                    break;
-                case 'registrationMode':
-                    updateStatus(data.message, 'success');
-                    updateGameStatus(GAME_STATES.WAITING);
-                    break;
-
-                case 'error':
-                    updateStatus(data.message, 'danger');
-                    break;
-
-                default:
-                    console.warn('Неизвестный тип сообщения:', data.type);
-            }
-        }
-
-        // Обновление статуса соединения
-        function updateStatus(message, type = 'info') {
-            const statusElement = document.getElementById('gameStatusBadge');
-            statusElement.textContent = message;
-
-            // Удаляем все классы статуса
-            statusElement.className = 'status-badge';
-
-            // Добавляем класс в зависимости от типа
-            switch (type) {
-                case 'success':
-                    statusElement.classList.add('bg-success', 'text-white');
-                    break;
-                case 'warning':
-                    statusElement.classList.add('bg-warning', 'text-dark');
-                    break;
-                case 'danger':
-                    statusElement.classList.add('bg-danger', 'text-white');
-                    break;
-                default:
-                    statusElement.classList.add('bg-info', 'text-white');
-            }
-        }
-
-        // Обновление списка игр
-        function updateGameList(games) {
-            const gameSelect = document.getElementById('gameSelect');
-            gameSelect.innerHTML = '<option value="">Выберите игру из списка</option>';
-
-            if (games && games.length > 0) {
-                games.forEach(gameId => {
-                    const option = document.createElement('option');
-                    option.value = gameId;
-                    option.textContent = gameId;
-                    gameSelect.appendChild(option);
-                });
-            }
-        }
-
-        // Обновление списка игроков
-        function updatePlayerList(players, gameId) {
-            if (gameId !== currentGameId) return;
-
-            const playerList = document.getElementById('playerList');
-            playerList.innerHTML = '';
-
-            if (players && players.length > 0) {
-                players.forEach(player => {
-                    const playerItem = document.createElement('div');
-                    playerItem.className = 'player-item';
-
-                    const playerName = document.createElement('span');
-                    playerName.textContent = player;
-
-                    const deleteButton = document.createElement('button');
-                    deleteButton.className = 'btn btn-sm btn-outline-danger';
-                    deleteButton.textContent = 'Удалить';
-                    deleteButton.onclick = function () {
-                        deletePlayerByName(player);
+                    socket.onopen = function () {
+                        console.log('Соединение с сервером установлено');
+                        updateStatus('Соединение с сервером установлено', 'success');
+                        refreshGameList();
                     };
 
-                    playerItem.appendChild(playerName);
-                    playerItem.appendChild(deleteButton);
-                    playerList.appendChild(playerItem);
-                });
-            } else {
-                playerList.innerHTML = '<p class="text-muted">Нет игроков</p>';
-            }
-        }
+                    socket.onmessage = function (event) {
+                        const data = JSON.parse(event.data);
+                        console.log('Получено сообщение:', data);
 
-        // Обновление статуса игры
-        function updateGameStatus(status) {
-            currentGameState = status;
-            const statusElement = document.getElementById('gameStatusBadge');
+                        handleServerMessage(data);
+                    };
 
-            // Удаляем все классы статуса
-            statusElement.className = 'status-badge';
+                    socket.onclose = function () {
+                        console.log('Соединение с сервером закрыто');
+                        updateStatus('Соединение с сервером закрыто. Попытка переподключения...', 'warning');
+                        setTimeout(connect, 1000);
+                    };
 
-            // Устанавливаем текст и класс в зависимости от статуса
-            switch (status) {
-                case GAME_STATES.WAITING:
-                    statusElement.classList.add('bg-secondary', 'text-white');
-                    statusElement.textContent = 'Ожидание регистрации';
-                    break;
-                case GAME_STATES.RUNNING:
-                    statusElement.classList.add('bg-success', 'text-white');
-                    statusElement.textContent = 'Игра идет';
-                    break;
-                case GAME_STATES.PAUSED:
-                    statusElement.classList.add('bg-warning', 'text-dark');
-                    statusElement.textContent = 'Пауза';
-                    break;
-                case GAME_STATES.STOPPED:
-                    statusElement.classList.add('bg-danger', 'text-white');
-                    statusElement.textContent = 'Остановлено';
-                    break;
-                case GAME_STATES.RESET:
-                    statusElement.classList.add('bg-info', 'text-white');
-                    statusElement.textContent = 'Сброс';
-                    break;
-                default:
-                    statusElement.classList.add('bg-light', 'text-dark');
-                    statusElement.textContent = status;
-            }
-        }
-
-        function registerGame() {
-
-        }
-
-        // Обновление информации о самом быстром игроке
-        function updateFastestPlayer(playerName) {
-            fastestPlayer = playerName;
-            const fastestPlayerInfo = document.getElementById('fastestPlayerInfo');
-
-            if (playerName) {
-                fastestPlayerInfo.textContent = `Победитель: ${playerName}`;
-                fastestPlayerInfo.className = 'card-text fastest-player';
-
-                // Подсвечиваем победителя в списке игроков
-                const playerItems = document.querySelectorAll('.player-item span');
-                playerItems.forEach(item => {
-                    if (item.textContent === playerName) {
-                        item.parentElement.classList.add('fastest-player');
-                    } else {
-                        item.parentElement.classList.remove('fastest-player');
-                    }
-                });
-            } else {
-                fastestPlayerInfo.textContent = 'Еще не было победителей в этом раунде';
-                fastestPlayerInfo.className = 'card-text text-muted';
-            }
-        }
-
-        // Создание новой игры
-        function createNewGame() {
-            const gameId = document.getElementById('gameIdInput').value.trim();
-            const hostName = document.getElementById('hostName').value.trim();
-
-            if (!gameId) {
-                updateStatus('Пожалуйста, введите ID новой игры', 'danger');
-                return;
-            }
-
-            if (!hostName) {
-                updateStatus('Пожалуйста, введите ваше имя', 'danger');
-                return;
-            }
-
-            if (socket && socket.readyState === WebSocket.OPEN) {
-                socket.send(JSON.stringify({
-                    type: 'createGame',
-                    gameId: gameId,
-                    name: hostName,
-                    isHost: true
-                }));
-            } else {
-                updateStatus('Нет соединения с сервером', 'danger');
-            }
-        }
-
-        // Обновление списка игр
-        function refreshGameList() {
-            if (socket && socket.readyState === WebSocket.OPEN) {
-                socket.send(JSON.stringify({
-                    type: 'getGames',
-                    isHost: true
-                }));
-            } else {
-                updateStatus('Нет соединения с сервером', 'danger');
-            }
-        }
-
-        // Присоединение к выбранной игре как ведущий
-        function joinSelectedGame() {
-            const gameSelect = document.getElementById('gameSelect');
-            const gameId = gameSelect.value;
-            const hostName = document.getElementById('hostName').value.trim();
-
-            if (!gameId) {
-                updateStatus('Пожалуйста, выберите игру из списка', 'danger');
-                return;
-            }
-
-            if (!hostName) {
-                updateStatus('Пожалуйста, введите ваше имя', 'danger');
-                return;
-            }
-
-            if (socket && socket.readyState === WebSocket.OPEN) {
-                socket.send(JSON.stringify({
-                    type: 'joinHostToGame',
-                    gameId: gameId,
-                    name: hostName,
-                    isHost: true
-                }));
-            } else {
-                updateStatus('Нет соединения с сервером', 'danger');
-            }
-        }
-
-        // Обновление списка игроков
-        function refreshPlayerList() {
-            if (!currentGameId) {
-                updateStatus('Пожалуйста, выберите игру', 'danger');
-                return;
-            }
-
-            if (socket && socket.readyState === WebSocket.OPEN) {
-                socket.send(JSON.stringify({
-                    type: 'getPlayers',
-                    gameId: currentGameId,
-                    isHost: true
-                }));
-            } else {
-                updateStatus('Нет соединения с сервером', 'danger');
-            }
-        }
-
-        // Запуск игры
-        function startGame() {
-            if (!currentGameId) {
-                updateStatus('Пожалуйста, выберите игру', 'danger');
-                return;
-            }
-
-            if (socket && socket.readyState === WebSocket.OPEN) {
-                socket.send(JSON.stringify({
-                    type: 'startGame',
-                    gameId: currentGameId,
-                    isHost: true
-                }));
-            } else {
-                updateStatus('Нет соединения с сервером', 'danger');
-            }
-        }
-
-        // Пауза игры
-        function pauseGame() {
-            if (!currentGameId) {
-                updateStatus('Пожалуйста, выберите игру', 'danger');
-                return;
-            }
-
-            if (socket && socket.readyState === WebSocket.OPEN) {
-                socket.send(JSON.stringify({
-                    type: 'pause',
-                    gameId: currentGameId,
-                    isHost: true
-                }));
-            } else {
-                updateStatus('Нет соединения с сервером', 'danger');
-            }
-        }
-
-        // Остановка игры
-        function stopGame() {
-            if (!currentGameId) {
-                updateStatus('Пожалуйста, выберите игру', 'danger');
-                return;
-            }
-
-            if (socket && socket.readyState === WebSocket.OPEN) {
-                socket.send(JSON.stringify({
-                    type: 'stopGame',
-                    gameId: currentGameId,
-                    isHost: true
-                }));
-            } else {
-                updateStatus('Нет соединения с сервером', 'danger');
-            }
-        }
-
-        // Сброс игры
-        function resetGame() {
-            if (!currentGameId) {
-                updateStatus('Пожалуйста, выберите игру', 'danger');
-                return;
-            }
-
-            if (confirm('Вы уверены, что хотите сбросить игру? Все игроки будут удалены.')) {
-                if (socket && socket.readyState === WebSocket.OPEN) {
-                    socket.send(JSON.stringify({
-                        type: 'reset',
-                        gameId: currentGameId,
-                        isHost: true
-                    }));
-                } else {
-                    updateStatus('Нет соединения с сервером', 'danger');
+                    socket.onerror = function (error) {
+                        console.log('Ошибка соединения:', error);
+                        updateStatus('Ошибка соединения с сервером', 'danger');
+                    };
                 }
-            }
-        }
 
-        // Новый раунд
-        function newRound() {
-            if (!currentGameId) {
-                updateStatus('Пожалуйста, выберите игру', 'danger');
-                return;
-            }
+                // Обработка сообщений от сервера
+                function handleServerMessage(data) {
+                    switch (data.type) {
+                        case 'joinHostToGame':
+                            console.log('Присоединился новый ведущий');
+                            updateStatus(data.message, 'success');
+                            //updateGameStatus(GAME_STATES.WAITING);
 
-            if (socket && socket.readyState === WebSocket.OPEN) {
-                socket.send(JSON.stringify({
-                    type: 'newRound',
-                    gameId: currentGameId,
-                    isHost: true
-                }));
-            } else {
-                updateStatus('Нет соединения с сервером', 'danger');
-            }
-        }
+                            break;
+                        case 'gameList':
+                            updateGameList(data.games || data.players);
+                            break;
 
-        // Удаление игрока по имени
-        function deletePlayer() {
-            const playerName = document.getElementById('playerNameToDelete').value.trim();
+                        case 'game_created':
+                            updateStatus(data.message, 'success');
+                            currentGameId = data.gameId;
+                            document.getElementById('currentGameIdDisplay').textContent = currentGameId;
+                            document.getElementById('gameManagement').style.display = 'block';
+                            updateGameStatus(GAME_STATES.WAITING);
+                            refreshGameList();
+                            break;
 
-            if (!playerName) {
-                updateStatus('Пожалуйста, введите имя игрока для удаления', 'danger');
-                return;
-            }
+                        case 'playerList':
+                            updatePlayerList(data.players, data.gameId);
+                            break;
 
-            if (!currentGameId) {
-                updateStatus('Пожалуйста, выберите игру', 'danger');
-                return;
-            }
+                        case 'playerDeleted':
+                            updateStatus(data.message, 'info');
+                            refreshPlayerList();
+                            break;
 
-            if (socket && socket.readyState === WebSocket.OPEN) {
-                socket.send(JSON.stringify({
-                    type: 'deletePlayer',
-                    gameId: currentGameId,
-                    name: playerName,
-                    isHost: true
-                }));
-            } else {
-                updateStatus('Нет соединения с сервером', 'danger');
-            }
-        }
+                        case 'set_game_state':
+                            updateGameStatus(data.message);
+                            break;
 
-        // Удаление игрока по имени (из списка)
-        function deletePlayerByName(playerName) {
-            if (!playerName) {
-                updateStatus('Пожалуйста, укажите имя игрока для удаления', 'danger');
-                return;
-            }
+                        case 'fastest':
+                            updateFastestPlayer(data.fastest);
+                            updateStatus(`Победитель раунда: ${data.fastest}`, 'info');
+                            speak(data.fastest);
+                            break;
 
-            if (!currentGameId) {
-                updateStatus('Пожалуйста, выберите игру', 'danger');
-                return;
-            }
+                        case 'gameRunning':
+                            updateGameStatus(GAME_STATES.RUNNING);
+                            break;
 
-            if (socket && socket.readyState === WebSocket.OPEN) {
-                socket.send(JSON.stringify({
-                    type: 'deletePlayer',
-                    gameId: currentGameId,
-                    name: playerName,
-                    isHost: true
-                }));
-            } else {
-                updateStatus('Нет соединения с сервером', 'danger');
-            }
-        }
+                        case 'gamePaused':
+                            updateGameStatus(GAME_STATES.PAUSED);
+                            break;
 
-        // Добавление тестового игрока (для отладки)
-        function addTestPlayer() {
-            const playerName = document.getElementById('playerNameToAdd').value.trim();
+                        case 'gameStopped':
+                            updateGameStatus(GAME_STATES.STOPPED);
+                            break;
 
-            if (!playerName) {
-                updateStatus('Пожалуйста, введите имя тестового игрока', 'danger');
-                return;
-            }
+                        case 'gameReset':
+                            updateGameStatus(GAME_STATES.WAITING);
+                            break;
 
-            if (!currentGameId) {
-                updateStatus('Пожалуйста, выберите игру', 'danger');
-                return;
-            }
+                        case 'newRound':
+                            updateGameStatus(GAME_STATES.RUNNING);
+                            updateStatus('Новый раунд начат!', 'info');
+                            fastestPlayer = null;
+                            //document.getElementById('hostInfo').textContent += 'Еще не было победителей в этом раунде';
+                            insertLogInfo('hostLog','Новый раунд начат!')
+                            break;
 
-            // В реальной игре игроки присоединяются сами, но для тестирования можно добавить эту функцию
-            updateStatus('Функция добавления тестового игрока реализована только на стороне сервера', 'info');
-        }
+                        case 'registered':
+                            updateGameStatus(GAME_STATES.WAITING);
+                            updateStatus(data.message, 'success');
+                            break;
+                        case 'registrationMode':
+                            updateStatus(data.message, 'success');
+                            updateGameStatus(GAME_STATES.WAITING);
+                            break;
 
-        function registerGame() {
-            if (!currentGameId) {
-                updateStatus('Пожалуйста, выберите игру', 'danger');
-                return;
-            }
+                        case 'error':
+                            updateStatus(data.message, 'danger');
+                            break;
 
-            if (socket && socket.readyState === WebSocket.OPEN) {
-                socket.send(JSON.stringify({
-                    type: 'setRegistrationMode',
-                    gameId: currentGameId,
-                    isHost: true
-                }));
-            } else {
-                updateStatus('Нет соединения с сервером', 'danger');
-            }
-        }
+                        default:
+                            console.warn('Неизвестный тип сообщения:', data.type);
+                    }
+                }
 
+                // Обновление статуса соединения
+                function updateStatus(message, type = 'info') {
+                    const statusElement = document.getElementById('gameStatusBadge');
+                    statusElement.textContent = message;
 
-        // Определение констант состояний игры
-        const GAME_STATES = {
-            WAITING: 'waiting_for_registration',
-            RUNNING: 'running',
-            PAUSED: 'paused',
-            STOPPED: 'stopped',
-            RESET: 'reset'
-        };
+                    // Удаляем все классы статуса
+                    statusElement.className = 'status-badge';
 
-        // Инициализация соединения при загрузке страницы
-        window.onload = function () {
-            connect();
-            createNewGame();
-            joinSelectedGame();
+                    // Добавляем класс в зависимости от типа
+                    switch (type) {
+                        case 'success':
+                            statusElement.classList.add('bg-success', 'text-white');
+                            break;
+                        case 'warning':
+                            statusElement.classList.add('bg-warning', 'text-dark');
+                            break;
+                        case 'danger':
+                            statusElement.classList.add('bg-danger', 'text-white');
+                            break;
+                        default:
+                            statusElement.classList.add('bg-info', 'text-white');
+                    }
+                }
 
-            // Добавляем обработчик события изменения выбора игры
-            document.getElementById('gameSelect').addEventListener('change', function () {
-                const gameId = this.value;
-                if (gameId) {
-                    currentGameId = gameId;
-                    document.getElementById('currentGameIdDisplay').textContent = currentGameId;
-                    document.getElementById('gameManagement').style.display = 'block';
+                // Обновление списка игр
+                function updateGameList(games) {
+                    const gameSelect = document.getElementById('gameSelect');
+                    gameSelect.innerHTML = '<option value="">Выберите игру из списка</option>';
 
-                    // Автоматически присоединяемся как ведущий
+                    if (games && games.length > 0) {
+                        games.forEach(gameId => {
+                            const option = document.createElement('option');
+                            option.value = gameId;
+                            option.textContent = gameId;
+                            gameSelect.appendChild(option);
+                        });
+                    }
+                }
+
+                // Обновление списка игроков
+                function updatePlayerList(players, gameId) {
+                    if (gameId !== currentGameId) return;
+
+                    const playerList = document.getElementById('playerList');
+                    playerList.innerHTML = '';
+
+                    if (players && players.length > 0) {
+                        players.forEach(player => {
+                            const playerItem = document.createElement('div');
+                            playerItem.className = 'player-item';
+
+                            const playerName = document.createElement('span');
+                            playerName.textContent = player;
+
+                            const deleteButton = document.createElement('button');
+                            deleteButton.className = 'btn btn-sm btn-outline-danger';
+                            deleteButton.textContent = 'Удалить';
+                            deleteButton.onclick = function () {
+                                deletePlayerByName(player);
+                            };
+
+                            playerItem.appendChild(playerName);
+                            playerItem.appendChild(deleteButton);
+                            playerList.appendChild(playerItem);
+                        });
+                    } else {
+                        playerList.innerHTML = '<p class="text-muted">Нет игроков</p>';
+                    }
+                }
+
+                // Обновление статуса игры
+                function updateGameStatus(status) {
+                    currentGameState = status;
+                    const statusElement = document.getElementById('gameStatusBadge');
+
+                    // Удаляем все классы статуса
+                    statusElement.className = 'status-badge';
+
+                    // Устанавливаем текст и класс в зависимости от статуса
+                    switch (status) {
+                        case GAME_STATES.WAITING:
+                            statusElement.classList.add('bg-secondary', 'text-white');
+                            statusElement.textContent = 'Ожидание регистрации';
+                            break;
+                        case GAME_STATES.RUNNING:
+                            statusElement.classList.add('bg-success', 'text-white');
+                            statusElement.textContent = 'Игра идет';
+                            break;
+                        case GAME_STATES.PAUSED:
+                            statusElement.classList.add('bg-warning', 'text-dark');
+                            statusElement.textContent = 'Пауза';
+                            break;
+                        case GAME_STATES.STOPPED:
+                            statusElement.classList.add('bg-danger', 'text-white');
+                            statusElement.textContent = 'Остановлено';
+                            break;
+                        case GAME_STATES.RESET:
+                            statusElement.classList.add('bg-info', 'text-white');
+                            statusElement.textContent = 'Сброс';
+                            break;
+                        default:
+                            statusElement.classList.add('bg-light', 'text-dark');
+                            statusElement.textContent = status;
+                    }
+                }
+
+                function registerGame() {
+
+                }
+
+                // Обновление информации о самом быстром игроке
+                function updateFastestPlayer(playerName) {
+                    //fastestPlayer = playerName;
+                    //const fastestPlayerInfo = document.getElementById('fastestPlayerInfo');
+
+                    if (playerName) {                        
+                         insertLogInfo('hostLog',`Первый: ${playerName}`)
+                        //fastestPlayerInfo.className = 'card-text fastest-player';
+
+                        // Подсвечиваем победителя в списке игроков
+                        const playerItems = document.querySelectorAll('.player-item span');
+                        playerItems.forEach(item => {
+                            if (item.textContent === playerName) {
+                                item.parentElement.classList.add('fastest-player');
+                            } else {
+                                item.parentElement.classList.remove('fastest-player');
+                            }
+                        });
+                    } else {
+                        //fastestPlayerInfo.textContent = 'Еще не было победителей в этом раунде';
+                        //fastestPlayerInfo.className = 'card-text text-muted';
+                        insertLogInfo('hostLog','no player name')
+                    }
+                }
+
+                // Создание новой игры
+                function createNewGame() {
+                    const gameId = document.getElementById('gameIdInput').value.trim();
                     const hostName = document.getElementById('hostName').value.trim();
-                    if (hostName) {
-                        joinSelectedGame();
+
+                    if (!gameId) {
+                        updateStatus('Пожалуйста, введите ID новой игры', 'danger');
+                        return;
                     }
 
-                    // Запрашиваем состояние игры и список игроков
+                    if (!hostName) {
+                        updateStatus('Пожалуйста, введите ваше имя', 'danger');
+                        return;
+                    }
+
                     if (socket && socket.readyState === WebSocket.OPEN) {
                         socket.send(JSON.stringify({
-                            type: 'get_game_state',
+                            type: 'createGame',
+                            gameId: gameId,
+                            name: hostName,
+                            isHost: true
+                        }));
+                    } else {
+                        updateStatus('Нет соединения с сервером', 'danger');
+                    }
+                }
+
+                // Обновление списка игр
+                function refreshGameList() {
+                    if (socket && socket.readyState === WebSocket.OPEN) {
+                        socket.send(JSON.stringify({
+                            type: 'getGames',
+                            isHost: true
+                        }));
+                    } else {
+                        updateStatus('Нет соединения с сервером', 'danger');
+                    }
+                }
+
+                // Присоединение к выбранной игре как ведущий
+                function joinSelectedGame() {
+                    const gameSelect = document.getElementById('gameSelect');
+                    const gameId = gameSelect.value;
+                    const hostName = document.getElementById('hostName').value.trim();
+
+                    if (!gameId) {
+                        updateStatus('Пожалуйста, выберите игру из списка', 'danger');
+                        return;
+                    }
+
+                    if (!hostName) {
+                        updateStatus('Пожалуйста, введите ваше имя', 'danger');
+                        return;
+                    }
+
+                    if (socket && socket.readyState === WebSocket.OPEN) {
+                        socket.send(JSON.stringify({
+                            type: 'joinHostToGame',
+                            gameId: gameId,
+                            name: hostName,
+                            isHost: true
+                        }));
+                    } else {
+                        updateStatus('Нет соединения с сервером', 'danger');
+                    }
+                }
+
+                // Обновление списка игроков
+                function refreshPlayerList() {
+                    if (!currentGameId) {
+                        updateStatus('Пожалуйста, выберите игру', 'danger');
+                        return;
+                    }
+
+                    if (socket && socket.readyState === WebSocket.OPEN) {
+                        socket.send(JSON.stringify({
+                            type: 'getPlayers',
                             gameId: currentGameId,
                             isHost: true
                         }));
-
-                        refreshPlayerList();
+                    } else {
+                        updateStatus('Нет соединения с сервером', 'danger');
                     }
-                } else {
-                    document.getElementById('gameManagement').style.display = 'none';
                 }
-            });
-        };
-    </script>
+
+                // Запуск игры
+                function startGame() {
+                    if (!currentGameId) {
+                        updateStatus('Пожалуйста, выберите игру', 'danger');
+                        return;
+                    }
+
+                    if (socket && socket.readyState === WebSocket.OPEN) {
+                        socket.send(JSON.stringify({
+                            type: 'startGame',
+                            gameId: currentGameId,
+                            isHost: true
+                        }));
+                        //document.getElementById('fastestPlayerInfo').textContent = 'Новая игра';
+                        insertLogInfo('hostLog','Новая игра');
+                    } else {
+                        updateStatus('Нет соединения с сервером', 'danger');
+                    }
+                }
+
+                // Пауза игры
+                function pauseGame() {
+                    if (!currentGameId) {
+                        updateStatus('Пожалуйста, выберите игру', 'danger');
+                        return;
+                    }
+
+                    if (socket && socket.readyState === WebSocket.OPEN) {
+                        socket.send(JSON.stringify({
+                            type: 'pause',
+                            gameId: currentGameId,
+                            isHost: true
+                        }));
+                    } else {
+                        updateStatus('Нет соединения с сервером', 'danger');
+                    }
+                }
+
+                // Остановка игры
+                function stopGame() {
+                    if (!currentGameId) {
+                        updateStatus('Пожалуйста, выберите игру', 'danger');
+                        return;
+                    }
+
+                    if (socket && socket.readyState === WebSocket.OPEN) {
+                        socket.send(JSON.stringify({
+                            type: 'stopGame',
+                            gameId: currentGameId,
+                            isHost: true
+                        }));
+                    } else {
+                        updateStatus('Нет соединения с сервером', 'danger');
+                    }
+                }
+
+                // Сброс игры
+                function resetGame() {
+                    if (!currentGameId) {
+                        updateStatus('Пожалуйста, выберите игру', 'danger');
+                        return;
+                    }
+
+                    if (confirm('Вы уверены, что хотите сбросить игру? Все игроки будут удалены.')) {
+                        if (socket && socket.readyState === WebSocket.OPEN) {
+                            socket.send(JSON.stringify({
+                                type: 'reset',
+                                gameId: currentGameId,
+                                isHost: true
+                            }));
+                        } else {
+                            updateStatus('Нет соединения с сервером', 'danger');
+                        }
+                    }
+                }
+
+                // Новый раунд
+                function newRound() {
+                    if (!currentGameId) {
+                        updateStatus('Пожалуйста, выберите игру', 'danger');
+                        return;
+                    }
+
+                    if (socket && socket.readyState === WebSocket.OPEN) {
+                        socket.send(JSON.stringify({
+                            type: 'newRound',
+                            gameId: currentGameId,
+                            isHost: true
+                        }));
+                    } else {
+                        updateStatus('Нет соединения с сервером', 'danger');
+                    }
+                }
+
+                // Удаление игрока по имени
+                function deletePlayer() {
+                    const playerName = document.getElementById('playerNameToDelete').value.trim();
+
+                    if (!playerName) {
+                        updateStatus('Пожалуйста, введите имя игрока для удаления', 'danger');
+                        return;
+                    }
+
+                    if (!currentGameId) {
+                        updateStatus('Пожалуйста, выберите игру', 'danger');
+                        return;
+                    }
+
+                    if (socket && socket.readyState === WebSocket.OPEN) {
+                        socket.send(JSON.stringify({
+                            type: 'deletePlayer',
+                            gameId: currentGameId,
+                            name: playerName,
+                            isHost: true
+                        }));
+                    } else {
+                        updateStatus('Нет соединения с сервером', 'danger');
+                    }
+                }
+
+                // Удаление игрока по имени (из списка)
+                function deletePlayerByName(playerName) {
+                    if (!playerName) {
+                        updateStatus('Пожалуйста, укажите имя игрока для удаления', 'danger');
+                        return;
+                    }
+
+                    if (!currentGameId) {
+                        updateStatus('Пожалуйста, выберите игру', 'danger');
+                        return;
+                    }
+
+                    if (socket && socket.readyState === WebSocket.OPEN) {
+                        socket.send(JSON.stringify({
+                            type: 'deletePlayer',
+                            gameId: currentGameId,
+                            name: playerName,
+                            isHost: true
+                        }));
+                    } else {
+                        updateStatus('Нет соединения с сервером', 'danger');
+                    }
+                }
+
+                // Добавление тестового игрока (для отладки)
+                function addTestPlayer() {
+                    const playerName = document.getElementById('playerNameToAdd').value.trim();
+
+                    if (!playerName) {
+                        updateStatus('Пожалуйста, введите имя тестового игрока', 'danger');
+                        return;
+                    }
+
+                    if (!currentGameId) {
+                        updateStatus('Пожалуйста, выберите игру', 'danger');
+                        return;
+                    }
+
+                    // В реальной игре игроки присоединяются сами, но для тестирования можно добавить эту функцию
+                    updateStatus('Функция добавления тестового игрока реализована только на стороне сервера', 'info');
+                }
+
+                function registerGame() {
+                    if (!currentGameId) {
+                        updateStatus('Пожалуйста, выберите игру', 'danger');
+                        return;
+                    }
+
+                    if (socket && socket.readyState === WebSocket.OPEN) {
+                        socket.send(JSON.stringify({
+                            type: 'setRegistrationMode',
+                            gameId: currentGameId,
+                            isHost: true
+                        }));
+                    } else {
+                        updateStatus('Нет соединения с сервером', 'danger');
+                    }
+                }
+
+
+                // Определение констант состояний игры
+                const GAME_STATES = {
+                    WAITING: 'waiting_for_registration',
+                    RUNNING: 'running',
+                    PAUSED: 'paused',
+                    STOPPED: 'stopped',
+                    RESET: 'reset'
+                };
+
+                // Инициализация соединения при загрузке страницы
+                window.onload = function () {
+                    connect();
+                    createNewGame();
+                    joinSelectedGame();
+
+                    // Добавляем обработчик события изменения выбора игры
+                    document.getElementById('gameSelect').addEventListener('change', function () {
+                        const gameId = this.value;
+                        if (gameId) {
+                            currentGameId = gameId;
+                            document.getElementById('currentGameIdDisplay').textContent = currentGameId;
+                            document.getElementById('gameManagement').style.display = 'block';
+
+                            // Автоматически присоединяемся как ведущий
+                            const hostName = document.getElementById('hostName').value.trim();
+                            if (hostName) {
+                                joinSelectedGame();
+                            }
+
+                            // Запрашиваем состояние игры и список игроков
+                            if (socket && socket.readyState === WebSocket.OPEN) {
+                                socket.send(JSON.stringify({
+                                    type: 'get_game_state',
+                                    gameId: currentGameId,
+                                    isHost: true
+                                }));
+
+                                refreshPlayerList();
+                            }
+                        } else {
+                            document.getElementById('gameManagement').style.display = 'none';
+                        }
+                    });
+                };
+
+                /**
+                 * Добавляет сообщение с текущим временем в начало элемента textarea.
+                 * @param {string} logElementId - ID элемента textarea, в который будет добавлено сообщение.
+                 * @param {string} message - Сообщение для добавления в лог.
+                 */
+                function insertLogInfo(logElementId, message) {
+                    // Получаем элемент textarea по его ID
+                    const logElement = document.getElementById(logElementId);
+
+                    // Если элемент не найден, выводим ошибку в консоль
+                    if (!logElement) {
+                        console.error(`Элемент с ID "${logElementId}" не найден!`);
+                        return;
+                    }
+
+                    // Получаем текущее время
+                    const now = new Date();
+                    const timeString = now.toLocaleTimeString(); // Форматируем время как "HH:MM:SS"
+
+                    // Формируем строку для лога: "[HH:MM:SS] Сообщение"
+                    const logEntry = `[${timeString}] ${message}\n`;
+
+                    // Добавляем новую строку в начало textarea
+                    logElement.value = logEntry + logElement.value;
+
+                    // Прокручиваем textarea к началу (опционально)
+                    logElement.scrollTop = 0;
+                }
+
+            </script>
 </body>
 
 </html>

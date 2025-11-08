@@ -8,7 +8,8 @@ const GAME_STATES = {
 
 //const address = 'ws://localhost:8080';
 // const address = 'ws://185.26.121.49:8080'
-const address = 'ws://192.168.0.190:8080';
+//const address = 'ws://192.168.0.190:8080';
+const { address } = require('./address.js');
 const WebSocket = require('ws');
 
 // Извлекаем порт из адреса (например, 'ws://localhost:8080' → 8080)
@@ -96,6 +97,9 @@ wss.on('connection', (ws) => {
                     case 'joinGame':
                         joinGame(ws, data);
                         break;
+                    case 'rejoinGame':
+                        rejoinGame(ws,data);
+                        break;                        
                     case 'fire':
                         fire(ws, data)
                         break;
@@ -293,6 +297,40 @@ function joinGame(ws, data) {
     sendPlayersListToHosts(ws, gameId);
 }
 
+function rejoinGame(ws, data) {
+    const { gameId, name } = data;
+
+    // Проверяем, существует ли игра
+    if (!games.has(gameId)) {
+        ws.send(JSON.stringify({ type: 'error', message: `Игра с ID ${gameId} не найдена` }));
+        return;
+    }
+
+    const game = games.get(gameId);
+
+    // if (game.state != GAME_STATES.WAITING) {
+    //     ws.send(JSON.stringify({ type: 'reject', message: 'Идет игра. Регистрация не возможна.' }));
+    //     return;
+
+    // }
+    // Проверяем, не занято ли имя
+    // const isName = Array.from(game.clients.values()).some(client => client.name === name);
+    // if (!isName) {
+    //     ws.send(JSON.stringify({ type: 'name_not_found', message: 'Игрок с таким именем не найден' }));
+    //     return;
+    // }
+
+    // Добавляем игрока
+    //game.clients.set(ws, { name: name, ready: true, hasAnswered: false });
+
+    ws.send(JSON.stringify({
+        type: 'rejoined',
+        message: `Игрок ${name} переподключился. Игра:${gameId}`,
+        gameId: gameId
+    }));
+
+    sendPlayersListToHosts(ws, gameId);
+}
 
 // Обновленная функция joinHostToGame на сервере
 function joinHostToGame(ws, data) {

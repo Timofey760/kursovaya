@@ -89,7 +89,18 @@
                 document.getElementById('actionButton').disabled = true;
                 document.getElementById('joinGameButton').disabled = false;
                 document.getElementById('nameInput').disabled = false;
-                getGames();
+                // Проверяем, был ли игрок уже зарегистрирован в игре
+                if (isRegistered && currentGameId && name) {                
+                    // Если игрок уже зарегистрирован, пытаемся восстановить подключение
+                    socket.send(JSON.stringify({
+                        type: 'rejoinGame',
+                        gameId: currentGameId,
+                        name: name
+                    }));
+                } else {
+                    // Если игрок не зарегистрирован, запрашиваем список игр
+                    getGames();
+                }
             };
 
             socket.onmessage = (event) => {
@@ -109,14 +120,14 @@
                         document.getElementById('actionButton').disabled = true;
                         document.getElementById('joinGameButton').disabled = false;
                         document.getElementById('nameInput').disabled = false;
-                        isRegistered = false;
+                        //isRegistered = false;
                         break;
                     case 'joinHostToGame':
                         console.log('joinHostToGame');
                         break;
-                    case 'game_state':
-                        handleGameState(data);
-                        break;
+                    // case 'game_state':
+                    //     handleGameState(data);
+                    //     break;
                     case 'registered':
                         document.getElementById('status').textContent = data.message;
                         document.getElementById('nameInput').disabled = true;
@@ -127,6 +138,16 @@
                         isRegistered = true;
                         document.getElementById('gameControls').style.display = 'block';
                         break;
+                    case 'rejoined':
+                        document.getElementById('status').textContent = data.message;
+                        document.getElementById('nameInput').disabled = true;
+                        document.getElementById('status').className = 'alert alert-success mb-3';
+                        document.getElementById('actionButton').style.display = 'none';
+                        document.getElementById('actionButton').disabled = true;
+                        document.getElementById('joinGameButton').disabled = true;
+                        isRegistered = true;
+                        document.getElementById('gameControls').style.display = 'block';
+                        break;                        
                     case 'clearPlayers':
                         document.getElementById('status').textContent = data.message;
                         document.getElementById('status').className = 'alert alert-warning mb-3';
@@ -238,27 +259,27 @@
             };
         }
 
-        function handleGameState(data) {
-            switch (data.message) {
-                case 'running':
-                case 'paused':
-                case 'stopped':
-                case 'reset':
-                    document.getElementById('status').textContent = "Идет игра. Регистрация не доступна";
-                    document.getElementById('nameInput').disabled = true;
-                    document.getElementById('status').className = 'alert alert-success mb-3';
-                    document.getElementById('actionButton').style.display = 'none';
-                    document.getElementById('actionButton').disabled = true;
-                    document.getElementById('joinGameButton').disabled = true;
-                    break;
-                case 'waiting_for_registration':
-                    document.getElementById('nameInput').disabled = false;
-                    document.getElementById('actionButton').style.display = 'none';
-                    document.getElementById('actionButton').disabled = true;
-                    document.getElementById('joinGameButton').disabled = false;
-                    break;
-            }
-        }
+        // function handleGameState(data) {
+        //     switch (data.message) {
+        //         case 'running':
+        //         case 'paused':
+        //         case 'stopped':
+        //         case 'reset':
+        //             document.getElementById('status').textContent = "Идет игра. Регистрация не доступна";
+        //             document.getElementById('nameInput').disabled = true;
+        //             document.getElementById('status').className = 'alert alert-success mb-3';
+        //             document.getElementById('actionButton').style.display = 'none';
+        //             document.getElementById('actionButton').disabled = true;
+        //             document.getElementById('joinGameButton').disabled = true;
+        //             break;
+        //         case 'waiting_for_registration':
+        //             document.getElementById('nameInput').disabled = false;
+        //             document.getElementById('actionButton').style.display = 'none';
+        //             document.getElementById('actionButton').disabled = true;
+        //             document.getElementById('joinGameButton').disabled = false;
+        //             break;
+        //     }
+        // }
 
         function updateGamesList(games) {
             if (!games || games.length == 0) {
