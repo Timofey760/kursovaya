@@ -1,0 +1,752 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Science Masters Jeopardy</title>
+    <style>
+        /* Сохраняем оригинальные стили с небольшими корректировками */
+        body {
+            background-color: #2a3698;
+            height: 100%;
+            font-family: Verdana, Arial, Helvetica, sans-serif;
+            padding-bottom: 100px;
+            margin: 0;
+        }
+        
+        label {
+            display: block;
+            font-size: 16px;
+        }
+        
+        input, textarea, select {
+            display: block;
+            font-family: Verdana, Arial, Helvetica, sans-serif;
+            margin: auto;
+        }
+        
+        textarea {
+            padding: 5px;
+        }
+        
+        .clear {
+            clear: both;
+        }
+        
+        .hide {
+            display: none;
+        }
+        
+        .edit {
+            border: 2px dashed #cccccc;
+            text-align: center;
+        }
+        
+        .edit:hover, textarea.active {
+            border: 2px inset gray;
+        }
+        
+        #title {
+            text-align: center;
+            font-size: 36px;
+            margin: auto;
+            line-height: 36px;
+        }
+        
+        textarea#title {
+            height: 50px;
+            width: 90%;
+            color: #012b45;
+        }
+        
+        #game {
+            width: 100%;
+            background-color: #000000;
+            padding: 0;
+            margin: 0;
+            margin: auto;
+            font-size: 16px;
+            opacity: 0;
+            transition: opacity 1s;
+        }
+        
+        #game.show {
+            opacity: 1;
+        }
+        
+        #game textarea {
+            width: 90%;
+            height: 30px;
+            font-size: 18px;
+            line-height: 22px;
+        }
+        
+        #game h3 {
+            color: #ffff5f;
+            text-align: center;
+            font-size: 20px;
+            font-weight: bold;
+        }
+        
+        #game tbody td, #game thead th {
+            vertical-align: middle;
+            background-color: #2a3698;
+            padding: 5px;
+            text-align: center;
+            width: 19%;
+            color: #ffff5f;
+            height: 60px;
+            font-size: 20px;
+        }
+        
+        #game tbody td {
+            cursor: pointer;
+            height: 100px;
+            border: 3px solid #2a3698;
+        }
+        
+        #game tbody td.ie-hack {
+            border: 3px solid #ffff5f;
+        }
+        
+        #game tbody td.dirty h3 {
+            color: #2a3698;
+        }
+        
+        #game tfoot td {
+            text-align: center;
+            background-color: #2a3698;
+        }
+        
+        .submit {
+            margin: auto;
+        }
+        
+        #modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        #modal-content {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 5px;
+            width: 80%;
+            max-width: 600px;
+            position: relative;
+        }
+        
+        #modal textarea {
+            width: 100%;
+            height: 120px;
+            font-size: 16px;
+            margin-bottom: 10px;
+        }
+        
+        #options {
+            background-color: #fff;
+            width: 500px;
+            padding: 10px;
+            margin: auto;
+            margin-top: 75px;
+        }
+        
+        #options h1 {
+            color: #2a3698;
+            font-size: 22px;
+            text-align: center;
+        }
+        
+        #options label {
+            text-align: center;
+            font-size: 14px;
+        }
+        
+        #options select, #options label, #options input {
+            margin-top: 5px;
+        }
+        
+        #options select {
+            width: 130px;
+        }
+        
+        #options input {
+            width: 100px;
+        }
+        
+        #options p {
+            margin-bottom: 0px;
+        }
+        
+        .tip {
+            float: left;
+        }
+        
+        .links {
+            float: right;
+        }
+        
+        #stats {
+            position: fixed;
+            bottom: 0;
+            background-color: #ffffff;
+            width: 100%;
+            text-align: center;
+            height: 110px;
+            display: none;
+            left: 0;
+        }
+        
+        #stats.show {
+            display: block;
+        }
+        
+        #stats h3 {
+            margin: 0;
+            padding: 0;
+        }
+        
+        #stats input.team-name {
+            border: none;
+            font-size: 18px;
+            font-weight: bold;
+            text-align: center;
+            font-family: Verdana, Arial, Helvetica, sans-serif;
+            width: 100%;
+            display: block;
+        }
+        
+        #stats table {
+            margin: auto;
+        }
+        
+        #stats table th {
+            border-bottom: 1px solid black;
+        }
+        
+        input.add-points {
+            color: #66cc33;
+            font-family: "Courier New", Courier, monospace;
+            font-weight: bold;
+            font-size: 20px;
+            cursor: pointer;
+            padding: 0px;
+            background-color: #FFFFFF;
+            border: none;
+            display: inline;
+        }
+        
+        input.subtract-points {
+            color: #ff0000;
+            font-family: "Courier New", Courier, monospace;
+            font-weight: bold;
+            font-size: 20px;
+            cursor: pointer;
+            padding: 0px;
+            background-color: #FFFFFF;
+            border: none;
+            display: inline;
+        }
+        
+        #prompt {
+            display: none;
+            height: 100%;
+            width: 100%;
+            font-size: 46px;
+            background-color: #2a3698;
+            color: #FFFFFF;
+            text-align: center;
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 999;
+        }
+        
+        #prompt.show {
+            display: block;
+        }
+        
+        #prompt a:link, #prompt a:visited, #prompt a:hover {
+            color: #fff;
+            font-size: 18px;
+            text-decoration: underline;
+        }
+        
+        #prompt a:hover {
+            text-decoration: none;
+        }
+        
+        .modal-close {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            cursor: pointer;
+            font-size: 20px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <table id="game" cellspacing="5" cellpadding="0" class="hide">
+        <thead>
+            <tr>
+                <th>Movin' and Groovin'</th>
+                <th>Skeletal Scaffolding</th>
+                <th>Breathing<sup>2</sup></th>
+                <th>The Pump</th>
+                <th>What a Sight</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td id="tq00" class="cell clean" data-question="q00" data-points="100">
+                    <h3>100</h3>
+                    <div class="hide">
+                        <div id="q00">What are muscles?</div>
+                        <div width="80%" id="aq00">These soft tissue structures when they contract allow you to move your arms and legs.</div>
+                    </div>
+                </td>
+                <td id="tq01" class="cell clean" data-question="q01" data-points="100">
+                    <h3>100</h3>
+                    <div class="hide">
+                        <div id="q01">What are bones?</div>
+                        <div id="aq01">These rigid organs make up the skeleton.</div>
+                    </div>
+                </td>
+                <td id="tq02" class="cell clean" data-question="q02" data-points="100">
+                    <h3>100</h3>
+                    <div class="hide">
+                        <div id="q02">What are lungs?</div>
+                        <div id="aq02">These paired organs allow you to breath in air.</div>
+                    </div>
+                </td>
+                <td id="tq03" class="cell clean" data-question="q03" data-points="100">
+                    <h3>100</h3>
+                    <div class="hide">
+                        <div id="q03">What is the heart?</div>
+                        <div id="aq03">This muscular organ pumps fluid through the circulatory system.</div>
+                    </div>
+                </td>
+                <td id="tq04" class="cell clean" data-question="q04" data-points="100">
+                    <h3>100</h3>
+                    <div class="hide">
+                        <div id="q04">What are the eyes?</div>
+                        <div id="aq04">These structures are the primary organs of vision.</div>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td id="tq10" class="cell clean" data-question="q10" data-points="200">
+                    <h3>200</h3>
+                    <div class="hide">
+                        <div id="q10">What are joints?</div>
+                        <div id="aq10">These structures are the location where two or more bones are fitted together.</div>
+                    </div>
+                </td>
+                <td id="tq11" class="cell clean" data-question="q11" data-points="200">
+                    <h3>200</h3>
+                    <div class="hide">
+                        <div id="q11">What are vertebrae?</div>
+                        <div id="aq11">These are a series of small bones forming the backbone.</div>
+                    </div>
+                </td>
+                <td id="tq12" class="cell clean" data-question="q12" data-points="200">
+                    <h3>200</h3>
+                    <div class="hide">
+                        <div id="q12">What is oxygen?</div>
+                        <div id="aq12">This molecule is the most essential inhaled gas.</div>
+                    </div>
+                </td>
+                <td id="tq13" class="cell clean" data-question="q13" data-points="200">
+                    <h3>200</h3>
+                    <div class="hide">
+                        <div id="q13">What is blood?</div>
+                        <div id="aq13">The heart pumps this fluid throughout the body.</div>
+                    </div>
+                </td>
+                <td id="tq14" class="cell clean" data-question="q14" data-points="200">
+                    <h3>200</h3>
+                    <div class="hide">
+                        <div id="q14">What are eyelids?</div>
+                        <div id="aq14">These thin folds of skin cover and protect the eyes.</div>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td id="tq20" class="cell clean" data-question="q20" data-points="300">
+                    <h3>300</h3>
+                    <div class="hide">
+                        <div id="q20">What is flexion?</div>
+                        <div id="aq20">The bending movement that decreases the angle between body parts.</div>
+                    </div>
+                </td>
+                <td id="tq21" class="cell clean" data-question="q21" data-points="300">
+                    <h3>300</h3>
+                    <div class="hide">
+                        <div id="q21">What is the femur?</div>
+                        <div id="aq21">This bone is the top most bone in the leg. Also called the thighbone.</div>
+                    </div>
+                </td>
+                <td id="tq22" class="cell clean" data-question="q22" data-points="300">
+                    <h3>300</h3>
+                    <div class="hide">
+                        <div id="q22">What is a stethoscope?</div>
+                        <div id="aq22">This medical device used to listen to internal sounds of the human body.</div>
+                    </div>
+                </td>
+                <td id="tq23" class="cell clean" data-question="q23" data-points="300">
+                    <h3>300</h3>
+                    <div class="hide">
+                        <div id="q23">What are atria?</div>
+                        <div id="aq23">These chambers collect blood as it returns to the heart.</div>
+                    </div>
+                </td>
+                <td id="tq24" class="cell clean" data-question="q24" data-points="300">
+                    <h3>300</h3>
+                    <div class="hide">
+                        <div id="q24">What are pupils?</div>
+                        <div id="aq24">These structures allow light to enter the eyes and strike the retina.</div>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td id="tq30" class="cell clean" data-question="q30" data-points="400">
+                    <h3>400</h3>
+                    <div class="hide">
+                        <div id="q30">What is extension?</div>
+                        <div id="aq30">The bending movement that increases the angle between body parts.</div>
+                    </div>
+                </td>
+                <td id="tq31" class="cell clean" data-question="q31" data-points="400">
+                    <h3>400</h3>
+                    <div class="hide">
+                        <div id="q31">What is the humerus?</div>
+                        <div id="aq31">This bone in the arms runs from the shoulder to the elbow.</div>
+                    </div>
+                </td>
+                <td id="tq32" class="cell clean" data-question="q32" data-points="400">
+                    <h3>400</h3>
+                    <div class="hide">
+                        <div id="q32">What is carbon dioxide?</div>
+                        <div id="aq32">This molecule is the most exhaled gas by humans.</div>
+                    </div>
+                </td>
+                <td id="tq33" class="cell clean" data-question="q33" data-points="400">
+                    <h3>400</h3>
+                    <div class="hide">
+                        <div id="q33">What are ventricles?</div>
+                        <div id="aq33">These chambers collect and expel blood out of the heart.</div>
+                    </div>
+                </td>
+                <td id="tq34" class="cell clean" data-question="q34" data-points="400">
+                    <h3>400</h3>
+                    <div class="hide">
+                        <div id="q34">What is the optic nerve?</div>
+                        <div id="aq34">This nerve transmits visual information to the brain from the eye.</div>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td id="tq40" class="cell clean" data-question="q40" data-points="500">
+                    <h3>500</h3>
+                    <div class="hide">
+                        <div id="q40">What is a tendon?</div>
+                        <div id="aq40">This structure attaches a muscle to a bone.</div>
+                    </div>
+                </td>
+                <td id="tq41" class="cell clean" data-question="q41" data-points="500">
+                    <h3>500</h3>
+                    <div class="hide">
+                        <div id="q41">What is calcium?</div>
+                        <div id="aq41">This is the most abundant mineral in the bones.</div>
+                    </div>
+                </td>
+                <td id="tq42" class="cell clean" data-question="q42" data-points="500">
+                    <h3>500</h3>
+                    <div class="hide">
+                        <div id="q42">What is the trachea?</div>
+                        <div id="aq42">This hollow tube connects the pharynx to the lungs, allowing the passage of air.</div>
+                    </div>
+                </td>
+                <td id="tq43" class="cell clean" data-question="q43" data-points="500">
+                    <h3>500</h3>
+                    <div class="hide">
+                        <div id="q43">What are valves?</div>
+                        <div id="aq43">These structures allow blood to flow in only one direction through the heart.</div>
+                    </div>
+                </td>
+                <td id="tq44" class="cell clean" data-question="q44" data-points="500">
+                    <h3>500</h3>
+                    <div class="hide">
+                        <div id="q44">What are the irises?</div>
+                        <div id="aq44">These structures define the eye color and control how much light enters the eye.</div>
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div id="options">
+        <h1>Science Masters Jeopardy</h1>
+        <label>Number of Teams</label>
+        <select name="teams" id="teams">
+            <option value="1">1 team</option>
+            <option value="2">2 teams</option>
+            <option value="3">3 teams</option>
+            <option value="4">4 teams</option>
+            <option value="5">5 teams</option>
+            <option value="6">6 teams</option>
+            <option value="7">7 teams</option>
+            <option value="8">8 teams</option>
+            <option value="9">9 teams</option>
+            <option value="10">10 teams</option>
+            <option value="11">11 teams</option>
+            <option value="12">12 teams</option>
+        </select>
+        <input class="submit" type="button" id="submit" value="Start" />
+        <p align="center">Press F11 for full-screen mode</p>
+        <div class="clear"></div>
+    </div>
+
+    <div id="stats"></div>
+
+    <div id="prompt">
+        <h2 id="answer"></h2>
+        <p><span id="correct-response"><a href="#" id="show-question">View correct response</a> &nbsp;&nbsp;&nbsp;&nbsp; </span><a href="#" id="continue">Continue &raquo;</a></p>
+        <h2 id="question"></h2>
+    </div>
+
+    <div id="modal">
+        <div id="modal-content">
+            <span class="modal-close" id="modal-close">&times;</span>
+            <h3>Edit Question</h3>
+            <textarea id="modal-question"></textarea>
+            <h3>Edit Answer</h3>
+            <textarea id="modal-answer"></textarea>
+            <button id="modal-save">Save</button>
+        </div>
+    </div>
+
+    <script>
+        // Глобальные переменные для состояния игры
+        const game = {
+            team_cnt: 0,
+            current_points: 0,
+            current_questionID: null,
+            
+            init: function() {
+                const gameElement = document.getElementById('game');
+                gameElement.classList.remove('hide');
+                gameElement.classList.add('show');
+                
+                document.getElementById('options').style.display = 'none';
+                document.getElementById('stats').classList.add('show');
+                
+                this.team_cnt = parseInt(document.getElementById('teams').value);
+                this.createScoreboard();
+                this.current_points = 0;
+                
+                // Добавляем обработчики событий для ячеек
+                document.querySelectorAll('.cell.clean').forEach(cell => {
+                    cell.addEventListener('click', function() {
+                        const questionID = this.getAttribute('data-question');
+                        const points = parseInt(this.getAttribute('data-points'));
+                        prompt.show(questionID, points);
+                    });
+                    
+                    cell.addEventListener('mouseover', function() {
+                        this.classList.add('ie-hack');
+                    });
+                    
+                    cell.addEventListener('mouseout', function() {
+                        this.classList.remove('ie-hack');
+                    });
+                });
+            },
+            
+            createScoreboard: function() {
+                let content = "<table cellspacing=10><tbody><tr>";
+                
+                for(let i = 1; i <= this.team_cnt; i++) {
+                    content += `<th><input class='team-name' type='text' value='Team ${i}' /></th>`;
+                }
+                
+                content += "</tr><tr>";
+                
+                for(let i = 1; i <= this.team_cnt; i++) {
+                    content += `<td><h3 id='team${i}'>0</h3>
+                               <input class='add-points' value='+' type='button' />
+                               <input class='subtract-points' type='button' value='-' /></td>`;
+                }
+                
+                content += "</tr></tbody></table>";
+                document.getElementById('stats').innerHTML = content;
+                
+                // Добавляем обработчики для кнопок добавления/вычитания очков
+                document.querySelectorAll('.add-points').forEach((button, index) => {
+                    button.addEventListener('click', () => {
+                        this.addPoints(index + 1);
+                    });
+                });
+                
+                document.querySelectorAll('.subtract-points').forEach((button, index) => {
+                    button.addEventListener('click', () => {
+                        this.subtractPoints(index + 1);
+                    });
+                });
+            },
+            
+            addPoints: function(team) {
+                const teamElement = document.getElementById(`team${team}`);
+                const points = parseInt(teamElement.textContent) + this.current_points;
+                teamElement.textContent = points;
+                
+                const questionCell = document.getElementById(`t${this.current_questionID}`);
+                questionCell.classList.add("dirty");
+                questionCell.classList.remove("clean");
+                
+                // Удаляем обработчики событий для использованного вопроса
+                questionCell.removeEventListener('click', this.cellClickHandler);
+                questionCell.removeEventListener('mouseover', this.cellMouseOverHandler);
+                questionCell.removeEventListener('mouseout', this.cellMouseOutHandler);
+            },
+            
+            subtractPoints: function(team) {
+                const teamElement = document.getElementById(`team${team}`);
+                const points = parseInt(teamElement.textContent) - this.current_points;
+                teamElement.textContent = points;
+                
+                const questionCell = document.getElementById(`t${this.current_questionID}`);
+                questionCell.classList.add("dirty");
+                questionCell.classList.remove("clean");
+                
+                // Удаляем обработчики событий для использованного вопроса
+                questionCell.removeEventListener('click', this.cellClickHandler);
+                questionCell.removeEventListener('mouseover', this.cellMouseOverHandler);
+                questionCell.removeEventListener('mouseout', this.cellMouseOutHandler);
+            }
+        };
+
+        const prompt = {
+            show: function(questionID, points) {
+                game.current_points = points;
+                game.current_questionID = questionID;
+                
+                document.getElementById('game').style.display = 'none';
+                document.getElementById('prompt').classList.add('show');
+                
+                const answerElement = document.getElementById('answer');
+                const questionElement = document.getElementById('question');
+                
+                answerElement.textContent = document.getElementById(`a${questionID}`).textContent;
+                questionElement.textContent = document.getElementById(questionID).textContent;
+                
+                if (questionElement.textContent.length === 0) {
+                    document.getElementById('correct-response').style.display = 'none';
+                } else {
+                    document.getElementById('correct-response').style.display = 'inline';
+                }
+            },
+            
+            hide: function() {
+                document.getElementById('prompt').classList.remove('show');
+                document.getElementById('game').style.display = 'table';
+                document.getElementById('question').style.display = 'none';
+            },
+            
+            showQuestion: function() {
+                document.getElementById('question').style.display = 'block';
+            }
+        };
+
+        // Модальное окно для редактирования вопросов
+        const modal = {
+            activeID: null,
+            
+            show: function(questionID) {
+                this.activeID = questionID;
+                document.getElementById('modal-question').value = document.getElementById(questionID).textContent;
+                document.getElementById('modal-answer').value = document.getElementById(`a${questionID}`).textContent;
+                document.getElementById('modal').style.display = 'flex';
+                
+                document.getElementById(`t${questionID}`).classList.add("dirty");
+                document.getElementById(`t${questionID}`).classList.remove("clean");
+            },
+            
+            hide: function() {
+                document.getElementById('modal').style.display = 'none';
+            },
+            
+            save: function() {
+                document.getElementById(this.activeID).textContent = document.getElementById('modal-question').value;
+                document.getElementById(`a${this.activeID}`).textContent = document.getElementById('modal-answer').value;
+                this.hide();
+            }
+        };
+
+        // Инициализация при загрузке страницы
+        document.addEventListener('DOMContentLoaded', function() {
+            // Обработчик для кнопки Start
+            document.getElementById('submit').addEventListener('click', function() {
+                game.init();
+            });
+            
+            // Обработчики для модального окна
+            document.getElementById('modal-close').addEventListener('click', function() {
+                modal.hide();
+            });
+            
+            document.getElementById('modal-save').addEventListener('click', function() {
+                modal.save();
+            });
+            
+            // Обработчики для промпта
+            document.getElementById('show-question').addEventListener('click', function(e) {
+                e.preventDefault();
+                prompt.showQuestion();
+            });
+            
+            document.getElementById('continue').addEventListener('click', function(e) {
+                e.preventDefault();
+                prompt.hide();
+            });
+            
+            // Закрытие модального окна при клике вне его
+            document.getElementById('modal').addEventListener('click', function(e) {
+                if (e.target === this) {
+                    modal.hide();
+                }
+            });
+            
+            // Автоматическое расширение текстовых областей
+            document.querySelectorAll('textarea.edit').forEach(textarea => {
+                textarea.addEventListener('focus', function() {
+                    this.classList.add('active');
+                    const val = this.value;
+                    if (val === "Enter Category" || val === "Enter Title") {
+                        setTimeout(() => this.select(), 1);
+                    }
+                });
+                
+                textarea.addEventListener('blur', function() {
+                    this.classList.remove('active');
+                });
+                
+                // Простая реализация авторасширения
+                textarea.addEventListener('input', function() {
+                    this.style.height = 'auto';
+                    this.style.height = (this.scrollHeight) + 'px';
+                });
+            });
+        });
+    </script>
+</body>
+</html>
